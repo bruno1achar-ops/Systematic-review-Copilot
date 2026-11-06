@@ -19,21 +19,19 @@
 }
 * { box-sizing: border-box; }
 body {
-  margin: 0;
-  background: var(--ivory);
-  color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.6;
+  margin: 0; background: var(--ivory); color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif; line-height: 1.6;
 }
 header {
-  background: var(--green);
-  color: white;
-  padding: 24px 5%;
+  background: var(--green); color: white; padding: 24px 5%;
   border-bottom: 4px solid var(--gold);
 }
 header h1 { margin: 0; font-size: clamp(22px, 3vw, 30px); }
 header p { margin: 5px 0 0; color: #e2e8e2; }
-.layout { display: grid; grid-template-columns: 235px minmax(0, 1fr); min-height: 82vh; }
+.layout {
+  display: grid; grid-template-columns: 235px minmax(0, 1fr);
+  min-height: 82vh;
+}
 nav { background: var(--soft); padding: 22px 13px; }
 nav button {
   display: block; width: 100%; text-align: left; padding: 12px;
@@ -43,13 +41,14 @@ nav button {
 nav button.active, nav button:hover { background: var(--green); color: white; }
 main { padding: 28px; max-width: 1250px; width: 100%; min-width: 0; }
 h2, h3 { color: var(--green); }
-h2 { margin-top: 0; }
-h3 { margin-top: 0; }
+h2, h3 { margin-top: 0; }
 .card {
   background: white; border: 1px solid var(--line); border-radius: 13px;
   padding: 20px; margin-bottom: 18px;
 }
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.stats {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+}
 .stat strong { display: block; font-size: 28px; color: var(--green); }
 label { display: block; font-weight: bold; margin: 12px 0 5px; }
 input, textarea, select {
@@ -73,11 +72,18 @@ button.danger {
 .muted, small { color: var(--muted); }
 .panel { display: none; }
 .panel.active { display: block; }
-.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.grid2 {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;
+}
+.grid3 {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+}
 .result { white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 15px; }
 table { width: 100%; border-collapse: collapse; }
-th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e4e5df; vertical-align: top; }
+th, td {
+  text-align: left; padding: 10px; border-bottom: 1px solid #e4e5df;
+  vertical-align: top;
+}
 th { background: #eef0e9; }
 .table-wrap { overflow-x: auto; }
 .notice {
@@ -85,6 +91,7 @@ th { background: #eef0e9; }
   padding: 12px 14px; border-radius: 5px; margin-bottom: 18px;
 }
 footer { padding: 20px; text-align: center; color: var(--muted); }
+[hidden] { display: none !important; }
 @media(max-width:760px) {
   .layout { grid-template-columns: 1fr; }
   nav { display: flex; overflow-x: auto; padding: 8px; }
@@ -109,15 +116,13 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
   <button data-panel="manuscript">✎ Manuscript Studio</button>
 </nav>
 <main>
-
-<!-- DASHBOARD -->
 <section id="home" class="panel active">
   <h2>Welcome to your research workspace</h2>
   <p class="muted">Organize your systematic review from protocol to manuscript.</p>
   <div class="stats">
     <div class="card stat"><strong id="studyCount">0</strong>Studies recorded</div>
     <div class="card stat"><strong id="includedCount">0</strong>Studies marked Include</div>
-    <div class="card stat"><strong>5</strong>Workspace modules</div>
+    <div class="card stat"><strong>6</strong>Workspace modules</div>
   </div>
   <div class="card">
     <h3>Project Workspace</h3>
@@ -136,7 +141,7 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
     <p>1. Enter your review question and eligibility criteria.</p>
     <p>2. Enter and check PRISMA counts.</p>
     <p>3. Record study screening decisions.</p>
-    <p>4. Add verified findings and build your manuscript.</p>
+    <p>4. Extract data, assess risk of bias, and build your manuscript.</p>
   </div>
   <div class="card">
     <h3>Evidence-first writing</h3>
@@ -144,7 +149,6 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
   </div>
 </section>
 
-<!-- REVIEW SETUP -->
 <section id="review" class="panel">
   <h2>Review Setup</h2>
   <div class="card">
@@ -167,7 +171,10 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
     <div class="grid2">
       <div>
         <label for="referenceStyle">Reference style</label>
-        <select id="referenceStyle"><option>Vancouver</option><option>Harvard</option><option>APA</option><option>Other / journal-specific</option></select>
+        <select id="referenceStyle">
+          <option>Vancouver</option><option>Harvard</option><option>APA</option>
+          <option>Other / journal-specific</option>
+        </select>
       </div>
       <div>
         <label for="framework">Question framework</label>
@@ -188,7 +195,6 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
   </div>
 </section>
 
-<!-- PRISMA -->
 <section id="prisma" class="panel">
   <h2>PRISMA Count Calculator</h2>
   <p class="muted">Enter your verified counts. These arithmetic checks do not replace the PRISMA flow diagram.</p>
@@ -202,121 +208,136 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
       <div><label for="reportsSought">Reports sought for retrieval</label><input type="number" min="0" id="reportsSought" value="0"></div>
       <div><label for="notRetrieved">Reports not retrieved</label><input type="number" min="0" id="notRetrieved" value="0"></div>
       <div><label for="fullAssessed">Reports assessed for eligibility</label><input type="number" min="0" id="fullAssessed" value="0"></div>
-      <div><label for="fullExcluded">Reports excluded after full text</label><input type="number" min="0" id="fullExcluded" value="0"></div>
+      <div><label for="fullExcluded">Reports excluded after full-text assessment</label><input type="number" min="0" id="fullExcluded" value="0"></div>
       <div><label for="included">Studies included in review</label><input type="number" min="0" id="included" value="0"></div>
     </div>
     <button class="primary" onclick="calculatePrisma()">Check counts</button>
     <button class="secondary" onclick="exportPrisma()">Export counts CSV</button>
-    <div id="prismaResult" class="result" aria-live="polite"></div>
+    <div id="prismaResult" class="result" role="status"></div>
   </div>
 </section>
 
-<!-- STUDY SCREENING -->
 <section id="screening" class="panel">
-  <h2>Study Screening Tracker</h2>
+  <h2>Study Screening</h2>
+  <div class="notice">Use a consistent eligibility protocol. This simple module is not a substitute for independent dual screening or a dedicated review-management platform.</div>
   <div class="card">
-    <label for="citation">Study citation or ID</label>
-    <input id="citation" placeholder="Author, year or reference ID">
-    <label for="decision">Screening decision</label>
-    <select id="decision"><option>Pending</option><option>Include</option><option>Exclude</option><option>Full-text assessment</option></select>
-    <label for="reason">Reason or notes</label>
-    <input id="reason" placeholder="Record the specific exclusion reason">
-    <button class="primary" onclick="addStudy()">Add study</button>
+    <label for="studyCitation">Citation / study ID</label>
+    <input id="studyCitation" placeholder="Author, year or unique study ID">
+    <label for="studyTitle">Title</label>
+    <input id="studyTitle" placeholder="Study title">
+    <div class="grid2">
+      <div>
+        <label for="studyStage">Screening stage</label>
+        <select id="studyStage"><option>Title/abstract</option><option>Full text</option></select>
+      </div>
+      <div>
+        <label for="studyDecision">Decision</label>
+        <select id="studyDecision"><option>Pending</option><option>Include</option><option>Exclude</option><option>Maybe</option></select>
+      </div>
+    </div>
+    <label for="studyReason">Reason / notes</label>
+    <textarea id="studyReason" placeholder="For exclusions, record a protocol-consistent reason"></textarea>
+    <button class="primary" onclick="addStudy()">Save screening record</button>
     <button class="secondary" onclick="exportStudies()">Export screening CSV</button>
-    <label for="studyImport">Import screening CSV</label>
-    <input id="studyImport" type="file" accept=".csv,text/csv" onchange="importStudies(event)">
+    <label for="screeningFile">Import screening CSV</label>
+    <input id="screeningFile" type="file" accept=".csv,text/csv" onchange="importStudies(event)">
+    <p id="screeningMessage" class="muted" role="status"></p>
   </div>
   <div class="card">
+    <h3>Screening records</h3>
     <div class="table-wrap">
-      <table><thead><tr><th>Study</th><th>Decision</th><th>Notes</th><th>Action</th></tr></thead><tbody id="studyRows"></tbody></table>
+      <table>
+        <thead><tr><th>Citation / ID</th><th>Title</th><th>Stage</th><th>Decision</th><th>Reason / notes</th><th>Actions</th></tr></thead>
+        <tbody id="studyRows"></tbody>
+      </table>
     </div>
-    <p id="screenMessage" class="muted">No studies recorded yet.</p>
   </div>
 </section>
 
-<!-- DATA EXTRACTION AND RISK OF BIAS -->
 <section id="extraction" class="panel">
   <h2>Study Data Extraction &amp; Risk of Bias</h2>
-  <p class="muted">Record study-level characteristics and structured critical-appraisal judgements. All entries remain editable and must be checked against the source paper by a reviewer.</p>
+  <p class="muted">Enter extracted information from the included full text. Check every value against the original report. These worksheets do not replace the official tool guidance or reviewer judgement.</p>
   <div class="card">
-    <h3>Study data extraction</h3>
+    <h3>1. Structured study extraction</h3>
     <div class="grid2">
-      <div><label for="dxCitation">Study citation / ID *</label><input id="dxCitation" placeholder="First author, year or study ID"></div>
-      <div><label for="dxDesign">Study design</label><input id="dxDesign" placeholder="e.g., parallel-group RCT, cohort, case-control"></div>
-      <div><label for="dxCountry">Country / setting</label><input id="dxCountry" placeholder="Country, hospital or setting"></div>
-      <div><label for="dxSample">Sample size</label><input id="dxSample" type="number" min="0" placeholder="Total participants / records"></div>
-      <div><label for="dxPopulation">Population / eligibility</label><textarea id="dxPopulation" placeholder="Key participant or sample characteristics"></textarea></div>
-      <div><label for="dxIntervention">Intervention / exposure / index test</label><textarea id="dxIntervention" placeholder="Describe the main intervention or exposure"></textarea></div>
-      <div><label for="dxComparator">Comparator / reference standard</label><textarea id="dxComparator" placeholder="Comparator, control or reference standard"></textarea></div>
-      <div><label for="dxOutcomes">Outcomes and time points</label><textarea id="dxOutcomes" placeholder="Outcome definitions, time points and measures"></textarea></div>
-      <div><label for="dxResults">Key results as reported</label><textarea id="dxResults" placeholder="Enter verified numbers exactly as reported; include units and denominators"></textarea></div>
-      <div><label for="dxNotes">Page / table / figure and notes</label><textarea id="dxNotes" placeholder="Page numbers, table/figure, missing data or clarification needed"></textarea></div>
+      <div><label for="dxCitation">Citation / unique study ID *</label><input id="dxCitation" placeholder="Author, year, DOI or study ID"></div>
+      <div><label for="dxDesign">Study design</label><input id="dxDesign" placeholder="e.g. randomized trial, cohort, diagnostic accuracy"></div>
+      <div><label for="dxCountry">Country / setting</label><input id="dxCountry" placeholder="Country and clinical setting"></div>
+      <div><label for="dxSample">Sample size</label><input id="dxSample" placeholder="Total and group sizes, if relevant"></div>
     </div>
-    <button class="primary" onclick="addExtractionRecord()">Save extraction record</button>
+    <label for="dxPopulation">Population / eligibility</label><textarea id="dxPopulation" placeholder="Participant characteristics and eligibility"></textarea>
+    <label for="dxIntervention">Intervention / exposure / index test</label><textarea id="dxIntervention"></textarea>
+    <label for="dxComparator">Comparator / reference standard</label><textarea id="dxComparator"></textarea>
+    <label for="dxOutcomes">Outcomes and time points</label><textarea id="dxOutcomes"></textarea>
+    <label for="dxResults">Key results</label><textarea id="dxResults" placeholder="Record exact values, denominators, effect estimates and confidence intervals as reported"></textarea>
+    <label for="dxNotes">Source locator / notes</label><textarea id="dxNotes" placeholder="Page, table, figure, supplement or unresolved query"></textarea>
+    <button id="dxSaveButton" class="primary" onclick="addExtractionRecord()">Save extraction record</button>
+    <button id="dxCancelEditButton" class="secondary" onclick="cancelExtractionEdit()" hidden>Cancel edit</button>
     <button class="secondary" onclick="exportExtractionRecords()">Export extraction CSV</button>
+    <button class="secondary" onclick="exportExtractionJSON()">Export extraction JSON backup</button>
     <button class="secondary" onclick="downloadExtractionTemplate()">Download blank CSV template</button>
     <p id="dxMessage" class="muted" role="status" aria-live="polite"></p>
   </div>
   <div class="card">
-    <h3>Extracted records</h3>
-    <div class="table-wrap"><table><thead><tr><th>Citation</th><th>Design</th><th>Country / setting</th><th>Sample size</th><th>Key results</th><th>Source locator / notes</th><th>Action</th></tr></thead><tbody id="dxRows"></tbody></table></div>
-    <p id="dxCount" class="muted">No extraction records yet.</p>
-  </div>
-  <div class="card">
-    <h3>Risk-of-bias / critical-appraisal assessment</h3>
-    <p class="muted">Choose the tool that matches the included study design. Domain names below are a practical worksheet, not an official scoring algorithm. Use the current official guidance for the selected tool; do not calculate a numeric total score unless the tool explicitly supports it.</p>
-    <div class="grid2">
-      <div><label for="robCitation">Study citation / ID *</label><input id="robCitation" placeholder="Match the extraction record citation"></div>
-      <div><label for="robTool">Assessment framework</label><select id="robTool"><option value="rob2">RoB 2 — randomized trials</option><option value="robinsI">ROBINS-I — non-randomized intervention studies</option><option value="quadas2">QUADAS-2 — diagnostic accuracy</option><option value="jbi">JBI / other design-specific checklist</option></select></div>
-      <div><label for="robReviewer">Reviewer initials</label><input id="robReviewer" placeholder="Reviewer initials"></div>
-      <div><label for="robOverall">Overall judgement (reviewer-assigned)</label><select id="robOverall"><option value="Not assessed">Not assessed</option><option value="Low risk">Low risk</option><option value="Some concerns">Some concerns</option><option value="High risk">High risk</option><option value="Moderate risk">Moderate risk</option><option value="Serious risk">Serious risk</option><option value="Critical risk">Critical risk</option><option value="Unclear">Unclear</option><option value="Not applicable">Not applicable</option></select></div>
+    <h3>Saved extraction records</h3>
+    <label for="dxSearch">Search extracted records</label>
+    <input id="dxSearch" type="search" placeholder="Search citation, design, results, notes…" oninput="renderExtractionRecords()">
+    <p id="dxCount" class="muted"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Citation</th><th>Design</th><th>Country</th><th>Sample size</th><th>Key results</th><th>Notes</th><th>Actions</th></tr></thead>
+        <tbody id="dxRows"></tbody>
+      </table>
     </div>
-    <div id="robDomains" class="grid2"></div>
-    <label for="robSupport">Overall rationale / supporting quotations and page numbers</label>
-    <textarea id="robSupport" placeholder="Explain the judgement and record supporting evidence with page/table references. Do not rely on the label alone."></textarea>
-    <button class="primary" onclick="saveRiskAssessment()">Save assessment</button>
-    <button class="secondary" onclick="exportRiskAssessments()">Export risk-of-bias CSV</button>
-    <p id="robMessage" class="muted" role="status" aria-live="polite"></p>
   </div>
   <div class="card">
-    <h3>Saved assessments</h3>
-    <div class="table-wrap"><table><thead><tr><th>Study</th><th>Tool</th><th>Reviewer</th><th>Overall judgement</th><th>Domain judgements</th><th>Action</th></tr></thead><tbody id="robRows"></tbody></table></div>
-    <p id="robCount" class="muted">No assessments saved yet.</p>
+    <h3>2. Risk-of-bias worksheet</h3>
+    <p class="muted">Select the tool appropriate for the study design. Domain prompts here are simplified organizational aids, not a replacement for official signalling questions, algorithms or guidance.</p>
+    <label for="robCitation">Study citation / ID</label>
+    <input id="robCitation" placeholder="Link assessment to a study ID">
+    <label for="robTool">Assessment tool</label>
+    <select id="robTool">
+      <option value="RoB 2">RoB 2 — randomized trials</option>
+      <option value="ROBINS-I">ROBINS-I — non-randomized intervention studies</option>
+      <option value="QUADAS-2">QUADAS-2 — diagnostic accuracy studies</option>
+      <option value="QUIPS">QUIPS — prognostic studies</option>
+      <option value="JBI">JBI — design-specific checklist (specify version)</option>
+    </select>
+    <div id="robDomains"></div>
+    <label for="robRationale">Supporting rationale / quotes / page references</label>
+    <textarea id="robRationale" placeholder="Document evidence for each judgement with page or table references"></textarea>
+    <button class="primary" onclick="saveRiskAssessment()">Save risk-of-bias assessment</button>
+    <button class="secondary" onclick="exportRiskAssessments()">Export RoB CSV</button>
+    <p id="robMessage" class="muted" role="status"></p>
   </div>
-</section><!-- MANUSCRIPT STUDIO -->
+  <div class="card">
+    <h3>Saved risk-of-bias assessments</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Study</th><th>Tool</th><th>Judgements</th><th>Rationale</th><th>Actions</th></tr></thead>
+        <tbody id="robRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <section id="manuscript" class="panel">
   <h2>Manuscript Studio</h2>
-  <p class="muted">Build a structured manuscript from your verified research information without paid AI APIs.</p>
-  <div class="notice">
-    <strong>Evidence-first workflow:</strong>
-    enter factual findings, study counts, methods and verified references. Missing information is flagged instead of guessed.
-  </div>
+  <p class="muted">Create an editable, template-based draft from your own verified inputs. It does not independently verify citations, run analyses, or supply real results.</p>
   <div class="card">
-    <h3>1. Manuscript details and evidence</h3>
-    <label for="authors">Authors and affiliations</label>
-    <textarea id="authors" placeholder="Author names, affiliations and corresponding author details"></textarea>
-    <label for="abstractType">Abstract format</label>
-    <select id="abstractType"><option>Structured</option><option>Unstructured</option></select>
-    <label for="abstractBackground">Abstract background</label>
-    <textarea id="abstractBackground" placeholder="Briefly describe the topic and evidence gap"></textarea>
-    <div class="grid2">
-      <div><label for="searchDate">Last search date</label><input id="searchDate" placeholder="Enter the actual search date"></div>
-      <div><label for="studyDesigns">Included study designs</label><input id="studyDesigns" placeholder="e.g., retrospective cohorts"></div>
-    </div>
-    <label for="methodsNotes">Methods: verified information</label>
-    <textarea id="methodsNotes" placeholder="Screening reviewers, extraction process, risk-of-bias tool, synthesis methods, effect measures and software actually used"></textarea>
-    <label for="resultsNotes">Results: verified findings</label>
-    <textarea id="resultsNotes" placeholder="Included studies, participants, outcomes, effect estimates, confidence intervals, heterogeneity and risk-of-bias findings"></textarea>
-    <label for="discussionNotes">Discussion: interpretation and context</label>
-    <textarea id="discussionNotes" placeholder="Principal findings, comparison with previous literature using verified references, implications and certainty of evidence"></textarea>
-    <label for="limitationsNotes">Limitations and strengths</label>
-    <textarea id="limitationsNotes" placeholder="Limitations of the included evidence and review methods; strengths and potential biases"></textarea>
-    <label for="conclusionNotes">Conclusion and implications</label>
-    <textarea id="conclusionNotes" placeholder="Conclusion proportionate to the evidence"></textarea>
-    <label for="fundingNotes">Funding, conflicts, data availability and acknowledgements</label>
-    <textarea id="fundingNotes" placeholder="Enter accurate declarations or confirm that a declaration is not applicable"></textarea>
-    <label for="referencesNotes">Verified references / citation placeholders</label>
-    <textarea id="referencesNotes" placeholder="Paste the reference list or placeholders. Verify every reference before submission."></textarea>
+    <h3>1. Draft inputs</h3>
+    <label for="authors">Authors and affiliations</label><textarea id="authors" placeholder="Enter accurate author names, affiliations and corresponding author details"></textarea>
+    <label for="abstractType">Abstract format / journal instructions</label><input id="abstractType" placeholder="e.g. structured abstract, 250 words">
+    <label for="abstractBackground">Abstract: background and objective</label><textarea id="abstractBackground"></textarea>
+    <label for="searchDate">Final search date</label><input id="searchDate" placeholder="Enter the actual final search date">
+    <label for="studyDesigns">Eligible study designs</label><textarea id="studyDesigns"></textarea>
+    <label for="methodsNotes">Methods notes</label><textarea id="methodsNotes" placeholder="Search strategy, screening, extraction, synthesis, risk of bias and certainty methods actually used"></textarea>
+    <label for="resultsNotes">Verified results</label><textarea id="resultsNotes" placeholder="Paste verified counts, outcome results, estimates, confidence intervals and heterogeneity"></textarea>
+    <label for="discussionNotes">Discussion notes</label><textarea id="discussionNotes"></textarea>
+    <label for="limitationsNotes">Limitations and strengths</label><textarea id="limitationsNotes"></textarea>
+    <label for="conclusionNotes">Conclusion and implications</label><textarea id="conclusionNotes"></textarea>
+    <label for="fundingNotes">Funding, conflicts, data availability and acknowledgements</label><textarea id="fundingNotes"></textarea>
+    <label for="referencesNotes">Verified references / citation placeholders</label><textarea id="referencesNotes" placeholder="Paste the reference list or placeholders. Verify every reference before submission."></textarea>
     <label for="extractionFile">Import study characteristics CSV</label>
     <input id="extractionFile" type="file" accept=".csv,text/csv" onchange="importExtraction(event)">
     <p class="muted">For Excel files, export the relevant worksheet as CSV first. The imported data is displayed for inspection; it is not automatically statistically analysed.</p>
@@ -337,21 +358,26 @@ footer { padding: 20px; text-align: center; color: var(--muted); }
     <p id="manuscriptMessage" class="muted" role="status"></p>
   </div>
 </section>
-
 </main>
 </div>
-<footer>
-  Systematic Review Copilot · Template-based research assistance · Human verification required
-</footer>
-
+<footer>Systematic Review Copilot · Template-based research assistance · Human verification required</footer>
 <script>
+```javascript
 const $ = id => document.getElementById(id);
 
 let studies = [];
 let reviewData = {};
 let extraction = { headers: [], rows: [] };
 let extractionRecords = [];
+let editingExtractionId = null;
 let riskAssessments = [];
+let activeProjectId = null;
+let projects = [];
+let isApplyingProject = false;
+let projectAutosaveTimer = null;
+
+const PROJECTS_KEY = "src_projects_v1";
+const ACTIVE_PROJECT_KEY = "src_active_project_v1";
 
 document.querySelectorAll("nav button").forEach(button => {
   button.addEventListener("click", () => {
@@ -374,24 +400,59 @@ function downloadFile(name, content, type = "text/plain;charset=utf-8") {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+function csvCell(value) {
+  return '"' + String(value ?? "").replace(/"/g, '""') + '"';
+}
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [], cell = "", quoted = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i], next = text[i + 1];
+
+    if (c === '"' && quoted && next === '"') {
+      cell += '"';
+      i++;
+    } else if (c === '"') {
+      quoted = !quoted;
+    } else if (c === "," && !quoted) {
+      row.push(cell);
+      cell = "";
+    } else if ((c === "\n" || c === "\r") && !quoted) {
+      if (c === "\r" && next === "\n") i++;
+      row.push(cell);
+      if (row.some(v => v.trim() !== "")) rows.push(row);
+      row = [];
+      cell = "";
+    } else {
+      cell += c;
+    }
+  }
+
+  if (cell.length || row.length) {
+    row.push(cell);
+    if (row.some(v => v.trim() !== "")) rows.push(row);
+  }
+
+  if (quoted) throw new Error("The CSV contains an unclosed quotation mark.");
+  return rows;
+}
+
 function saveReview() {
-  reviewData = {
-    title: $("title").value,
-    reviewType: $("reviewType").value,
-    journal: $("journal").value,
-    referenceStyle: $("referenceStyle").value,
-    framework: $("framework").value,
-    question: $("question").value,
-    eligibility: $("eligibility").value,
-    databases: $("databases").value,
-    protocol: $("protocol").value
-  };
+  reviewData = {};
+  ["title", "reviewType", "journal", "referenceStyle", "framework",
+   "question", "eligibility", "databases", "protocol"].forEach(id => {
+    reviewData[id] = $(id).value;
+  });
+
   try {
     localStorage.setItem("src_review", JSON.stringify(reviewData));
-    $("reviewMessage").textContent = "Saved in this browser.";
+    $("reviewMessage").textContent = "Review setup saved in this browser.";
   } catch (e) {
-    $("reviewMessage").textContent = "Browser storage unavailable. Export a backup.";
+    $("reviewMessage").textContent = "Could not save locally. Export a backup.";
   }
+  saveCurrentProject();
 }
 
 function exportReview() {
@@ -399,7 +460,9 @@ function exportReview() {
   downloadFile("review-setup.json", JSON.stringify(reviewData, null, 2), "application/json");
 }
 
-function num(id) { return Number($(id).value); }
+function num(id) {
+  return Number($(id).value);
+}
 
 function calculatePrisma() {
   const ids = [
@@ -414,34 +477,24 @@ function calculatePrisma() {
     num(id) < 0
   )) {
     $("prismaResult").textContent =
-      "Enter a non-negative whole number in every PRISMA field.";
+      "Enter a non-negative whole number in every field.";
     return;
   }
 
-  const identified = num("identified");
-  const duplicates = num("duplicates");
-  const otherRemoved = num("otherRemoved");
-  const screened = num("screened");
-  const titleExcluded = num("titleExcluded");
-  const reportsSought = num("reportsSought");
-  const notRetrieved = num("notRetrieved");
-  const fullAssessed = num("fullAssessed");
-  const fullExcluded = num("fullExcluded");
-  const included = num("included");
-
   const checks = [
-    ["Records screened", screened, identified - duplicates - otherRemoved],
-    ["Records excluded", titleExcluded, screened - reportsSought],
-    ["Reports assessed", fullAssessed, reportsSought - notRetrieved],
-    ["Reports included/excluded", fullAssessed, fullExcluded + included]
+    ["Records screened", num("screened"), num("identified") - num("duplicates") - num("otherRemoved")],
+    ["Exclusions + reports sought", num("titleExcluded") + num("reportsSought"), num("screened")],
+    ["Reports assessed", num("fullAssessed"), num("reportsSought") - num("notRetrieved")],
+    ["Included + full-text exclusions", num("included") + num("fullExcluded"), num("fullAssessed")]
   ];
 
-  const messages = checks.map(([label, actual, expected]) => {
-    const status = actual === expected ? "OK" : "Check";
-    return `${status}: ${label} = ${actual}; expected ${expected}.`;
-  });
+  $("prismaResult").textContent =
+    "PRISMA arithmetic checks\n\n" +
+    checks.map(([label, actual, expected]) =>
+      `${label}: ${actual}; expected ${expected} — ` +
+      `${actual === expected ? "MATCH" : "CHECK COUNTS"}`
+    ).join("\n");
 
-  $("prismaResult").textContent = messages.join("\n");
   saveCurrentProject();
 }
 
@@ -451,197 +504,147 @@ function exportPrisma() {
     "titleExcluded", "reportsSought", "notRetrieved",
     "fullAssessed", "fullExcluded", "included"
   ];
-  const rows = [["Field", "Count"], ...ids.map(id => [id, $(id).value])];
-  downloadFile("prisma-counts.csv",
-    rows.map(row => row.map(csvCell).join(",")).join("\n"),
-    "text/csv;charset=utf-8");
-}
-
-function csvCell(value) {
-  return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
-}
-
-function parseCSV(text) {
-  const rows = [];
-  let row = [];
-  let cell = "";
-  let quoted = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (quoted) {
-      if (ch === '"' && text[i + 1] === '"') {
-        cell += '"';
-        i++;
-      } else if (ch === '"') {
-        quoted = false;
-      } else {
-        cell += ch;
-      }
-    } else if (ch === '"' && cell === "") {
-      quoted = true;
-    } else if (ch === ",") {
-      row.push(cell);
-      cell = "";
-    } else if (ch === "\n") {
-      row.push(cell);
-      rows.push(row);
-      row = [];
-      cell = "";
-    } else if (ch !== "\r") {
-      cell += ch;
-    }
-  }
-
-  if (cell !== "" || row.length) {
-    row.push(cell);
-    rows.push(row);
-  }
-
-  return rows.filter(r => r.some(v => v.trim() !== ""));
+  const csv = "Field,Count\n" + ids.map(id => `${csvCell(id)},${csvCell($(id).value)}`).join("\n");
+  downloadFile("prisma-counts.csv", "\uFEFF" + csv, "text/csv;charset=utf-8");
 }
 
 function addStudy() {
-  const citation = $("citation").value.trim();
+  const citation = $("studyCitation").value.trim();
+
   if (!citation) {
-    $("screenMessage").textContent = "Enter a study citation or ID.";
+    $("screeningMessage").textContent = "Enter a study citation or ID first.";
+    $("studyCitation").focus();
     return;
   }
 
-  const existing = studies.find(s => s.citation.toLowerCase() === citation.toLowerCase());
-  if (existing) {
-    existing.decision = $("decision").value;
-    existing.reason = $("reason").value.trim();
-  } else {
-    studies.push({
-      id: "study-" + Date.now(),
-      citation,
-      decision: $("decision").value,
-      reason: $("reason").value.trim()
-    });
-  }
+  studies.push({
+    id: "screen-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+    citation,
+    title: $("studyTitle").value.trim(),
+    stage: $("studyStage").value,
+    decision: $("studyDecision").value,
+    reason: $("studyReason").value.trim()
+  });
 
-  $("citation").value = "";
-  $("reason").value = "";
+  $("studyCitation").value = "";
+  $("studyTitle").value = "";
+  $("studyReason").value = "";
   renderStudies();
+  persistStudies();
   saveCurrentProject();
 }
 
 function renderStudies() {
   const tbody = $("studyRows");
+  if (!tbody) return;
   tbody.replaceChildren();
 
   studies.forEach(study => {
     const tr = document.createElement("tr");
-    [study.citation, study.decision, study.reason].forEach(value => {
+
+    [study.citation, study.title, study.stage, study.decision, study.reason].forEach(value => {
       const td = document.createElement("td");
-      td.textContent = value || "";
+      td.textContent = String(value ?? "");
       tr.appendChild(td);
     });
 
     const action = document.createElement("td");
-    const edit = document.createElement("button");
-    edit.className = "secondary";
-    edit.textContent = "Load";
-    edit.onclick = () => {
-      $("citation").value = study.citation;
-      $("decision").value = study.decision;
-      $("reason").value = study.reason;
-    };
-
     const remove = document.createElement("button");
     remove.className = "danger";
     remove.textContent = "Remove";
     remove.onclick = () => {
-      if (!confirm("Remove this study?")) return;
+      if (!confirm("Remove this screening record?")) return;
       studies = studies.filter(s => s.id !== study.id);
       renderStudies();
+      persistStudies();
       saveCurrentProject();
     };
-
-    action.append(edit, remove);
+    action.appendChild(remove);
     tr.appendChild(action);
     tbody.appendChild(tr);
   });
 
   $("studyCount").textContent = studies.length;
-  $("includedCount").textContent = studies.filter(s => s.decision === "Include").length;
-  $("screenMessage").textContent = `${studies.length} study record(s).`;
+  $("includedCount").textContent =
+    studies.filter(s => s.decision === "Include").length;
+
+  $("screeningMessage").textContent = studies.length
+    ? `${studies.length} screening record(s) saved.`
+    : "No studies recorded yet.";
+
+  if (!studies.length) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 6;
+    td.textContent = "No screening records yet.";
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+}
+
+function persistStudies() {
+  try {
+    localStorage.setItem("src_studies", JSON.stringify(studies));
+  } catch (e) {}
+}
+
+function exportStudies() {
+  const headers = ["Citation / ID", "Title", "Stage", "Decision", "Reason / notes"];
+  const rows = studies.map(s => [s.citation, s.title, s.stage, s.decision, s.reason]);
+  const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
+  downloadFile("study-screening.csv", "\uFEFF" + csv, "text/csv;charset=utf-8");
 }
 
 async function importStudies(event) {
-  const file = event.target.files[0];
+  const file = event.target.files?.[0];
   if (!file) return;
 
   try {
     const rows = parseCSV(await file.text());
-    if (rows.length < 2) throw new Error("The CSV has no data rows.");
+    if (rows.length < 2) throw new Error("CSV needs a header and at least one data row.");
 
-    const headers = rows[0].map(h => h.trim().toLowerCase());
-    const citationIndex = headers.findIndex(h => /citation|study|reference|title|id/.test(h));
-    const decisionIndex = headers.findIndex(h => /decision|status|include|screen/.test(h));
-    const reasonIndex = headers.findIndex(h => /reason|note|exclude/.test(h));
+    const headers = rows[0].map(x => x.trim().toLowerCase());
+    const find = pattern => headers.findIndex(x => pattern.test(x));
+    const ci = find(/citation|study|reference|author|id/);
+    const ti = find(/title/);
+    const sti = find(/stage/);
+    const di = find(/decision|status|screen/);
+    const ri = find(/reason|note|comment/);
 
-    if (citationIndex < 0) throw new Error("Could not find a citation/study column.");
+    const imported = rows.slice(1).map(r => ({
+      id: "screen-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+      citation: r[ci >= 0 ? ci : 0] || "",
+      title: r[ti >= 0 ? ti : -1] || "",
+      stage: r[sti >= 0 ? sti : -1] || "Title/abstract",
+      decision: r[di >= 0 ? di : 1] || "Pending",
+      reason: r[ri >= 0 ? ri : 2] || ""
+    })).filter(s => s.citation.trim());
 
-    rows.slice(1).forEach(row => {
-      const citation = (row[citationIndex] || "").trim();
-      if (!citation) return;
+    if (!imported.length) throw new Error("No usable citation / ID values found.");
+    if (!confirm(`Import ${imported.length} records? Existing screening records will be replaced.`)) return;
 
-      const decision = decisionIndex >= 0 ? (row[decisionIndex] || "Pending").trim() : "Pending";
-      const reason = reasonIndex >= 0 ? (row[reasonIndex] || "").trim() : "";
-      const existing = studies.find(s => s.citation.toLowerCase() === citation.toLowerCase());
-
-      if (existing) {
-        existing.decision = decision;
-        existing.reason = reason;
-      } else {
-        studies.push({ id: "study-" + Date.now() + "-" + Math.random(), citation, decision, reason });
-      }
-    });
-
+    studies = imported;
     renderStudies();
+    persistStudies();
     saveCurrentProject();
-    $("screenMessage").textContent = `Imported screening CSV. ${studies.length} total study records.`;
-  } catch (error) {
-    $("screenMessage").textContent = "Import failed: " + error.message;
+    $("screeningMessage").textContent = `Imported ${studies.length} records. Check the column mapping.`;
+  } catch (e) {
+    $("screeningMessage").textContent = "Could not import CSV: " + e.message;
   } finally {
     event.target.value = "";
   }
 }
 
-function exportStudies() {
-  const rows = [
-    ["Citation", "Decision", "Reason"],
-    ...studies.map(s => [s.citation, s.decision, s.reason])
-  ];
-  downloadFile("screening-studies.csv",
-    rows.map(row => row.map(csvCell).join(",")).join("\n"),
-    "text/csv;charset=utf-8");
-}async function importExtraction(event) {
-  const file = event.target.files[0];
+async function importExtraction(event) {
+  const file = event.target.files?.[0];
   if (!file) return;
 
   try {
     const parsed = parseCSV(await file.text());
-    if (parsed.length < 2) {
-      throw new Error("CSV needs a header and at least one data row.");
-    }
+    if (parsed.length < 2) throw new Error("CSV needs a header and at least one data row.");
 
-    extraction = {
-      headers: parsed[0],
-      rows: parsed.slice(1)
-    };
-
-    const preview = extraction.rows.slice(0, 5).map(row =>
-      row.map((value, i) => `${extraction.headers[i]}: ${value}`).join(" | ")
-    ).join("\n");
-
-    $("extractionPreview").textContent =
-      `Loaded ${extraction.rows.length} data rows and ${extraction.headers.length} columns.\n` +
-      `Preview (first 5 rows):\n${preview}\n\n` +
-      "Preview only. Verify every value against the original source.";
+    extraction = { headers: parsed[0], rows: parsed.slice(1) };
+    renderExtractionPreview();
     saveCurrentProject();
   } catch (e) {
     $("extractionPreview").textContent = "Could not read CSV: " + e.message;
@@ -650,21 +653,363 @@ function exportStudies() {
   }
 }
 
+function renderExtractionPreview() {
+  const target = $("extractionPreview");
+  if (!target) return;
+
+  if (!extraction.rows.length) {
+    target.textContent = "";
+    return;
+  }
+
+  const preview = extraction.rows.slice(0, 5).map(row =>
+    row.map((value, i) => `${extraction.headers[i] || "Column"}: ${value}`).join(" | ")
+  ).join("\n");
+
+  target.textContent =
+    `Loaded ${extraction.rows.length} data rows and ${extraction.headers.length} columns.\n` +
+    `Preview (first 5 rows):\n${preview}\n\n` +
+    "Preview only: data has not been statistically analysed or independently verified.";
+}
+
+const extractionFields = [
+  ["citation", "Citation / ID", "dxCitation"],
+  ["design", "Study design", "dxDesign"],
+  ["country", "Country / setting", "dxCountry"],
+  ["sampleSize", "Sample size", "dxSample"],
+  ["population", "Population / eligibility", "dxPopulation"],
+  ["intervention", "Intervention / exposure / index test", "dxIntervention"],
+  ["comparator", "Comparator / reference standard", "dxComparator"],
+  ["outcomes", "Outcomes and time points", "dxOutcomes"],
+  ["results", "Key results", "dxResults"],
+  ["notes", "Source locator / notes", "dxNotes"]
+];
+
+function normalizedCitation(value) {
+  return String(value ?? "").trim().toLocaleLowerCase().replace(/\s+/g, " ");
+}
+
+function clearExtractionForm() {
+  extractionFields.forEach(([, , id]) => {
+    if ($(id)) $(id).value = "";
+  });
+}
+
+function cancelExtractionEdit() {
+  editingExtractionId = null;
+  clearExtractionForm();
+  $("dxSaveButton").textContent = "Save extraction record";
+  $("dxCancelEditButton").hidden = true;
+  $("dxMessage").textContent = "Editing cancelled. Saved records remain unchanged.";
+}
+
+function loadExtractionRecord(id) {
+  const record = extractionRecords.find(item => item.id === id);
+  if (!record) {
+    $("dxMessage").textContent = "Record not found. Refresh and try again.";
+    return;
+  }
+
+  editingExtractionId = record.id;
+  extractionFields.forEach(([key, , inputId]) => {
+    $(inputId).value = String(record[key] ?? "");
+  });
+
+  $("dxSaveButton").textContent = "Update extraction record";
+  $("dxCancelEditButton").hidden = false;
+  $("dxMessage").textContent = `Editing ${record.citation}. Update the details or cancel.`;
+  $("dxCitation").focus();
+}
+
+function addExtractionRecord() {
+  const citation = $("dxCitation").value.trim();
+
+  if (!citation) {
+    $("dxMessage").textContent = "Citation / ID is required.";
+    $("dxCitation").focus();
+    return;
+  }
+
+  const record = {
+    id: editingExtractionId || "dx-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7)
+  };
+
+  extractionFields.forEach(([key, , inputId]) => {
+    record[key] = $(inputId).value.trim();
+  });
+
+  const duplicate = extractionRecords.find(item =>
+    normalizedCitation(item.citation) === normalizedCitation(citation) &&
+    item.id !== editingExtractionId
+  );
+
+  if (duplicate) {
+    if (!confirm(
+      `A record with this citation / ID already exists:\n${duplicate.citation}\n\n` +
+      "OK = update the existing record.\nCancel = leave all records unchanged."
+    )) {
+      $("dxMessage").textContent = "Save cancelled. Existing records were not changed.";
+      return;
+    }
+
+    record.id = duplicate.id;
+
+    if (editingExtractionId && editingExtractionId !== duplicate.id) {
+      extractionRecords = extractionRecords.filter(item => item.id !== editingExtractionId);
+    }
+
+    const index = extractionRecords.findIndex(item => item.id === duplicate.id);
+    if (index < 0) {
+      $("dxMessage").textContent = "Could not find the duplicate record. Nothing was saved.";
+      return;
+    }
+    extractionRecords[index] = record;
+    $("dxMessage").textContent = "Existing record updated. Verify values against the source paper.";
+
+  } else if (editingExtractionId) {
+    const index = extractionRecords.findIndex(item => item.id === editingExtractionId);
+    if (index < 0) {
+      $("dxMessage").textContent = "The record being edited could not be found. Nothing was saved.";
+      return;
+    }
+    extractionRecords[index] = record;
+    $("dxMessage").textContent = "Record updated. Verify values against the source paper.";
+
+  } else {
+    extractionRecords.push(record);
+    $("dxMessage").textContent = "Record saved. Verify values against the full text.";
+  }
+
+  editingExtractionId = null;
+  clearExtractionForm();
+  $("dxSaveButton").textContent = "Save extraction record";
+  $("dxCancelEditButton").hidden = true;
+  renderExtractionRecords();
+  saveCurrentProject();
+}
+
+function renderExtractionRecords() {
+  const tbody = $("dxRows");
+  if (!tbody) return;
+  tbody.replaceChildren();
+
+  const query = normalizedCitation($("dxSearch").value);
+  const filtered = extractionRecords.filter(record =>
+    !query || extractionFields.some(([key]) =>
+      normalizedCitation(record[key]).includes(query)
+    )
+  );
+
+  filtered.forEach(record => {
+    const tr = document.createElement("tr");
+    [record.citation, record.design, record.country, record.sampleSize, record.results, record.notes]
+      .forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = String(value ?? "");
+        tr.appendChild(td);
+      });
+
+    const action = document.createElement("td");
+    const edit = document.createElement("button");
+    edit.type = "button";
+    edit.className = "secondary";
+    edit.textContent = "Edit";
+    edit.onclick = () => loadExtractionRecord(record.id);
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "danger";
+    remove.textContent = "Remove";
+    remove.onclick = () => {
+      if (!confirm(`Remove extraction record "${record.citation}"?`)) return;
+      extractionRecords = extractionRecords.filter(item => item.id !== record.id);
+      if (editingExtractionId === record.id) cancelExtractionEdit();
+      renderExtractionRecords();
+      saveCurrentProject();
+    };
+
+    action.append(edit, remove);
+    tr.appendChild(action);
+    tbody.appendChild(tr);
+  });
+
+  $("dxCount").textContent = `${filtered.length} of ${extractionRecords.length} extraction record(s) shown.`;
+
+  if (!filtered.length) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 7;
+    td.textContent = extractionRecords.length
+      ? "No records match your search."
+      : "No extraction records saved yet.";
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+}
+
+function downloadExtractionTemplate() {
+  const csv = extractionFields.map(([, label]) => csvCell(label)).join(",") + "\n";
+  downloadFile("study-data-extraction-template.csv", "\uFEFF" + csv, "text/csv;charset=utf-8");
+}
+
+function exportExtractionRecords() {
+  const headers = extractionFields.map(([, label]) => label);
+  const rows = extractionRecords.map(record => extractionFields.map(([key]) => record[key] ?? ""));
+  const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
+  downloadFile("study-data-extraction.csv", "\uFEFF" + csv, "text/csv;charset=utf-8");
+}
+
+function exportExtractionJSON() {
+  const backup = {
+    format: "Systematic Review Copilot extraction backup",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    reviewTitle: $("title").value,
+    records: extractionRecords
+  };
+  downloadFile("study-data-extraction-backup.json", JSON.stringify(backup, null, 2), "application/json");
+}
+
+const robToolDomains = {
+  "RoB 2": [
+    "Randomization process", "Deviations from intended interventions",
+    "Missing outcome data", "Measurement of the outcome", "Selection of the reported result"
+  ],
+  "ROBINS-I": [
+    "Confounding", "Selection of participants", "Classification of interventions",
+    "Deviations from intended interventions", "Missing data", "Measurement of outcomes",
+    "Selection of the reported result"
+  ],
+  "QUADAS-2": [
+    "Patient selection", "Index test", "Reference standard", "Flow and timing"
+  ],
+  "QUIPS": [
+    "Study participation", "Study attrition", "Prognostic factor measurement",
+    "Outcome measurement", "Study confounding", "Statistical analysis and reporting"
+  ],
+  "JBI": [
+    "Participant selection", "Measurement / exposure", "Outcome assessment",
+    "Confounding / comparability", "Follow-up / analysis"
+  ]
+};
+
+function renderRobDomains() {
+  const tool = $("robTool").value;
+  const target = $("robDomains");
+  target.replaceChildren();
+
+  robToolDomains[tool].forEach((domain, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "grid2";
+
+    const label = document.createElement("label");
+    label.htmlFor = `robDomain${index}`;
+    label.textContent = domain;
+
+    const select = document.createElement("select");
+    select.id = `robDomain${index}`;
+    select.dataset.domain = domain;
+
+    ["Not assessed", "Low risk", "Some concerns", "High risk", "Unclear", "Not applicable"].forEach(value => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
+    });
+
+    wrapper.append(label, select);
+    target.appendChild(wrapper);
+  });
+}
+
+function saveRiskAssessment() {
+  const citation = $("robCitation").value.trim();
+  if (!citation) {
+    $("robMessage").textContent = "Enter the study citation / ID first.";
+    $("robCitation").focus();
+    return;
+  }
+
+  const judgements = {};
+  document.querySelectorAll("#robDomains select").forEach(select => {
+    judgements[select.dataset.domain] = select.value;
+  });
+
+  const assessment = {
+    id: "rob-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+    citation,
+    tool: $("robTool").value,
+    judgements,
+    rationale: $("robRationale").value.trim(),
+    assessedAt: new Date().toISOString()
+  };
+
+  riskAssessments.push(assessment);
+  $("robRationale").value = "";
+  $("robMessage").textContent = "Assessment saved. Check each judgement against the official tool guidance.";
+  renderRiskAssessments();
+  saveCurrentProject();
+}
+
+function renderRiskAssessments() {
+  const tbody = $("robRows");
+  if (!tbody) return;
+  tbody.replaceChildren();
+
+  riskAssessments.forEach(item => {
+    const tr = document.createElement("tr");
+    const judgementText = Object.entries(item.judgements || {})
+      .map(([domain, judgement]) => `${domain}: ${judgement}`)
+      .join("; ");
+
+    [item.citation, item.tool, judgementText, item.rationale].forEach(value => {
+      const td = document.createElement("td");
+      td.textContent = String(value ?? "");
+      tr.appendChild(td);
+    });
+
+    const action = document.createElement("td");
+    const remove = document.createElement("button");
+    remove.className = "danger";
+    remove.textContent = "Remove";
+    remove.onclick = () => {
+      if (!confirm(`Remove the risk-of-bias assessment for "${item.citation}"?`)) return;
+      riskAssessments = riskAssessments.filter(a => a.id !== item.id);
+      renderRiskAssessments();
+      saveCurrentProject();
+    };
+    action.appendChild(remove);
+    tr.appendChild(action);
+    tbody.appendChild(tr);
+  });
+
+  if (!riskAssessments.length) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 5;
+    td.textContent = "No risk-of-bias assessments saved yet.";
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+}
+
+function exportRiskAssessments() {
+  const headers = ["Citation", "Tool", "Domain", "Judgement", "Rationale", "Assessed at"];
+  const rows = [];
+
+  riskAssessments.forEach(item => {
+    Object.entries(item.judgements || {}).forEach(([domain, judgement]) => {
+      rows.push([item.citation, item.tool, domain, judgement, item.rationale, item.assessedAt]);
+    });
+  });
+
+  const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
+  downloadFile("risk-of-bias-assessments.csv", "\uFEFF" + csv, "text/csv;charset=utf-8");
+}
+
 function val(id, placeholder) {
   const value = $(id).value.trim();
   return value || placeholder;
-}
-
-function prismaSummary() {
-  return `Records identified: ${val("identified", "[enter number]")}; ` +
-    `records screened: ${val("screened", "[enter number]")}; ` +
-    `reports assessed: ${val("fullAssessed", "[enter number]")}; ` +
-    `studies included: ${val("included", "[enter number]")}. ` +
-    "Verify these counts against the final PRISMA flow diagram.";
-}
-
-function section(title, body) {
-  return `${title.toUpperCase()}\n\n${body}\n`;
 }
 
 function buildManuscript() {
@@ -679,119 +1024,83 @@ function buildManuscript() {
   const discussion = val("discussionNotes", "[Interpret findings using verified evidence.]");
   const limitations = val("limitationsNotes", "[Describe strengths and limitations.]");
   const conclusion = val("conclusionNotes", "[Write a conclusion proportionate to the evidence.]");
-  const authors = $("authors").value.trim();
+  const authors = $("authors").value.trim() || "[Insert authors and affiliations.]";
   const refs = val("referencesNotes", "[Insert and verify the reference list.]");
   const studyDesigns = val("studyDesigns", "[Specify included study designs.]");
   const funding = val("fundingNotes", "[Confirm declarations before submission.]");
 
-  const abstract = $("abstractType").value === "Structured"
-    ? `Background: ${val("abstractBackground", "[Describe the topic and evidence gap.]")}
+  const abstract = `Background and objective: ${val("abstractBackground", "[Describe the topic and evidence gap.]")}
 
 Objective: ${objective}
 
-Methods: ${databases} Searches last conducted: ${searchDate}. Eligibility: ${criteria} Methods: ${methods}
+Methods: ${databases} Last search: ${searchDate}. Eligibility: ${criteria} Study designs: ${studyDesigns} Methods: ${methods}
 
 Results: ${results}
-
-Conclusion: ${conclusion}
-
-Registration: ${protocol}`
-    : `This review addressed the following objective: ${objective}
-
-Methods: ${databases} Searches last conducted: ${searchDate}. Eligibility: ${criteria} ${methods}
-
-Findings: ${results}
 
 Conclusion: ${conclusion}
 
 Registration: ${protocol}`;
 
   const extractionSummary = extraction.rows.length
-    ? `\n\nCSV preview: ${extraction.rows.length} rows and ${extraction.headers.length} columns were imported. Columns: ${extraction.headers.join(", ")}. This preview has not been statistically analysed or independently validated.`
-    : "";
+    ? `\n\nImported study-characteristics data: ${extraction.rows.length} rows and ${extraction.headers.length} columns. Columns: ${extraction.headers.join(", ")}. This data has not been statistically analysed or independently validated.`
+    : "\n\n[Insert the verified study-characteristics summary.]";
 
-  $("manuscriptOutput").value = [
-    title.toUpperCase(),
-    authors || "[Insert author names and affiliations.]",
-    section("Abstract", abstract),
-    section("Keywords", "[Add keywords according to target journal requirements.]"),
-    section("1. Introduction",
-      `Background and rationale: [Explain the topic and current state of knowledge using verified citations.]
-
-Evidence gap: [Describe what remains uncertain and why this review is needed.]
-
-Objective: ${objective}`),
-    section("2. Methods",
-      `Protocol and reporting: ${protocol}
-
-Eligibility criteria: ${criteria}
-
-Information sources: ${databases}
-
-Search strategy: [Provide reproducible database-specific search strategies, dates, limits and supplementary searching.]
-
-Selection process: [State how many reviewers screened records, whether independently, and how disagreements were resolved.]
-
-Data collection process: [Describe extraction forms, reviewers, checking and handling of missing information.]
-
-Data items: [List collected outcomes and variables.]
-
-Risk of bias assessment: [Name the appropriate tool and describe the assessment process.]
-
-Effect measures and synthesis: [Specify outcome-level effect measures, synthesis model, heterogeneity assessment, subgroup and sensitivity analyses, and software actually used. Do not claim a meta-analysis unless it was performed.]
-
-Certainty of evidence: [Describe the method used, such as GRADE, only if actually performed.]
-
-Verified methods notes: ${methods}`),
-    section("3. Results",
-      `Study selection: ${prismaSummary()}
-
-Study characteristics and designs: ${studyDesigns}
-
-Main findings: ${results}
-
-Risk of bias: [Report actual assessments by domain and refer to relevant tables or figures.]
-
-Synthesis results: [Report each outcome with denominators, effect estimates, confidence intervals, heterogeneity and certainty where applicable.]${extractionSummary}`),
-    section("4. Discussion",
-      `Principal findings and interpretation: ${discussion}
-
-Comparison with previous literature: [Compare with relevant studies using verified citations.]
-
-Strengths and limitations: ${limitations}
-
-Implications for practice and policy: [State only implications justified by the evidence.]
-
-Implications for future research: [Identify research gaps supported by this review.]`),
-    section("5. Conclusion", conclusion),
-    section("Declarations", funding),
-    section("References", refs),
-    section("Pre-submission verification checklist",
-      "[ ] Every numerical value matches the final extraction sheet and analysis.\n" +
-      "[ ] PRISMA counts reconcile and match the flow diagram.\n" +
-      "[ ] All citations map to real, verified references.\n" +
-      "[ ] Methods describe only procedures actually performed.\n" +
-      "[ ] Effect estimates, denominators and confidence intervals are checked.\n" +
-      "[ ] Risk-of-bias and certainty judgements are accurate.\n" +
-      "[ ] The abstract matches the full manuscript.\n" +
-      "[ ] Journal instructions and declarations have been checked.\n" +
-      "[ ] All placeholders have been resolved before submission.")
+  const text = [
+    title,
+    `Authors and affiliations\n\n${authors}`,
+    `ABSTRACT\n\n${abstract}`,
+    `KEYWORDS\n\n[Insert keywords according to journal instructions.]`,
+    `1. INTRODUCTION\n\n${objective}\n\n[Provide a referenced rationale and explain why the review is needed.]`,
+    `2. METHODS\n\nObjective: ${objective}\n\nEligibility criteria: ${criteria}\n\nInformation sources: ${databases}\n\nLast search date: ${searchDate}\n\nStudy designs: ${studyDesigns}\n\nProtocol and reporting: ${protocol}\n\nMethods performed: ${methods}\n\n[Describe screening, extraction, risk of bias, synthesis methods and certainty assessment accurately.]`,
+    `3. RESULTS\n\nPRISMA count check: ${$("prismaResult").textContent || "[Complete and reconcile the PRISMA counts.]"}\n\nVerified results: ${results}\n\nRisk of bias: [Report actual assessments by domain and refer to relevant tables or figures.]\n\nSynthesis results: [Report outcomes, denominators, effect estimates, confidence intervals, heterogeneity and certainty where applicable.]${extractionSummary}`,
+    `4. DISCUSSION\n\nPrincipal findings and interpretation: ${discussion}\n\nComparison with previous literature: [Compare with relevant studies using verified citations.]\n\nStrengths and limitations: ${limitations}\n\nImplications for practice and policy: [State only implications justified by the evidence.]\n\nImplications for future research: [Identify evidence-supported research gaps.]`,
+    `5. CONCLUSION\n\n${conclusion}`,
+    `DECLARATIONS\n\n${funding}`,
+    `REFERENCES\n\n${refs}`,
+    `PRE-SUBMISSION VERIFICATION CHECKLIST\n\n[ ] Numerical values match the final extraction sheet and analysis.\n[ ] PRISMA counts reconcile and match the flow diagram.\n[ ] All citations map to real, verified references.\n[ ] Methods describe only procedures actually performed.\n[ ] Effect estimates, denominators and confidence intervals are checked.\n[ ] Risk-of-bias and certainty judgements are accurate.\n[ ] Abstract matches the full manuscript.\n[ ] Journal instructions and declarations have been checked.\n[ ] All placeholders have been resolved before submission.`
   ].join("\n\n");
 
+  $("manuscriptOutput").value = text;
   $("manuscriptMessage").textContent =
     "Draft built. Verify every section, claim, number and citation before submission.";
   saveCurrentProject();
+  $("manuscriptOutput").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function saveManuscript() {
+  const fields = [
+    "title", "reviewType", "journal", "referenceStyle", "framework",
+    "question", "eligibility", "databases", "protocol", "authors",
+    "abstractType", "abstractBackground", "searchDate", "studyDesigns",
+    "methodsNotes", "resultsNotes", "discussionNotes", "limitationsNotes",
+    "conclusionNotes", "fundingNotes", "referencesNotes", "manuscriptOutput"
+  ];
+  const data = {};
+  fields.forEach(id => data[id] = $(id).value);
+
+  try {
+    localStorage.setItem("src_manuscript", JSON.stringify(data));
+    $("manuscriptMessage").textContent = "Draft saved in this browser.";
+  } catch (e) {
+    $("manuscriptMessage").textContent = "Browser storage unavailable. Export a backup.";
+  }
   saveCurrentProject();
-  $("manuscriptMessage").textContent = "Draft saved in the current project.";
 }
 
 function loadManuscript() {
-  $("manuscriptMessage").textContent =
-    "The draft is part of the current project. Switch projects to load another draft.";
-  loadCurrentProjectToForm();
+  try {
+    const data = JSON.parse(localStorage.getItem("src_manuscript") || "null");
+    if (!data) {
+      $("manuscriptMessage").textContent = "No saved draft found in this browser.";
+      return;
+    }
+    Object.keys(data).forEach(id => {
+      if ($(id)) $(id).value = data[id];
+    });
+    $("manuscriptMessage").textContent = "Saved draft loaded.";
+  } catch (e) {
+    $("manuscriptMessage").textContent = "Could not load saved draft.";
+  }
 }
 
 function slug() {
@@ -809,7 +1118,7 @@ function downloadMarkdown() {
 }
 
 function escapeHtml(text) {
-  return text.replace(/[&<>"]/g, character => ({
+  return String(text).replace(/[&<>"]/g, character => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"
   }[character]));
 }
@@ -824,6 +1133,7 @@ function downloadWord() {
   const html = text.split(/\n{2,}/).map(block => {
     const lines = block.split("\n");
     const first = lines[0];
+
     if (/^(ABSTRACT|KEYWORDS|[1-5]\. |DECLARATIONS|REFERENCES|PRE-SUBMISSION VERIFICATION CHECKLIST)/i.test(first)) {
       return "<h2>" + escapeHtml(first) + "</h2>" +
         (lines.length > 1 ? "<p>" + lines.slice(1).map(escapeHtml).join("<br>") + "</p>" : "");
@@ -831,7 +1141,11 @@ function downloadWord() {
     return "<p>" + lines.map(escapeHtml).join("<br>") + "</p>";
   }).join("\n");
 
-  const doc = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeHtml($("title").value || "Systematic Review Manuscript")}</title></head><body><h1>${escapeHtml($("title").value || "Systematic Review Manuscript")}</h1>${html}</body></html>`;
+  const doc = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>${escapeHtml($("title").value || "Systematic Review Manuscript")}</title>
+<style>body{font-family:Arial,sans-serif;line-height:1.6;color:#222}h1,h2{color:#244b3b}p{margin:0 0 12pt}</style>
+</head><body><h1>${escapeHtml($("title").value || "Systematic Review Manuscript")}</h1>${html}</body></html>`;
+
   downloadFile(slug() + ".doc", doc, "application/msword;charset=utf-8");
 }
 
@@ -858,660 +1172,291 @@ function downloadText() {
   downloadFile(slug() + ".txt", text);
 }
 
-// Structured study extraction
-const extractionFields = [
-  ["citation", "Citation / ID"],
-  ["design", "Study design"],
-  ["country", "Country / setting"],
-  ["sampleSize", "Sample size"],
-  ["population", "Population / eligibility"],
-  ["intervention", "Intervention / exposure / index test"],
-  ["comparator", "Comparator / reference standard"],
-  ["outcomes", "Outcomes and time points"],
-  ["results", "Key results"],
-  ["notes", "Source locator / notes"]
-];
-
-const robToolLabels = {
-  rob2: "RoB 2",
-  robinsI: "ROBINS-I",
-  quadas2: "QUADAS-2",
-  jbi: "JBI / design-specific"
-};
-
-const robDomainsByTool = {
-  rob2: [
-    "Randomization process",
-    "Deviations from intended interventions",
-    "Missing outcome data",
-    "Measurement of the outcome",
-    "Selection of the reported result"
-  ],
-  robinsI: [
-    "Confounding",
-    "Selection of participants",
-    "Classification of interventions",
-    "Deviations from intended interventions",
-    "Missing data",
-    "Measurement of outcomes",
-    "Selection of the reported result"
-  ],
-  quadas2: [
-    "Patient selection — risk of bias",
-    "Index test — risk of bias",
-    "Reference standard — risk of bias",
-    "Flow and timing — risk of bias",
-    "Patient selection — applicability",
-    "Index test — applicability",
-    "Reference standard — applicability"
-  ],
-  jbi: [
-    "Eligibility / sample selection",
-    "Measurement of exposure or intervention",
-    "Identification and handling of confounding",
-    "Outcome measurement",
-    "Follow-up / missing data",
-    "Appropriate analysis"
-  ]
-};
-
-function addExtractionRecord() {
-  const citation = $("dxCitation").value.trim();
-  if (!citation) {
-    $("dxMessage").textContent = "Enter a study citation or ID.";
-    return;
+/* Project workspace and local autosave */
+function readProjects() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PROJECTS_KEY) || "[]");
+    return Array.isArray(stored) ? stored : [];
+  } catch (e) {
+    return [];
   }
-
-  const record = { id: "dx-" + Date.now() };
-  extractionFields.forEach(([key]) => {
-    const inputId = key === "sampleSize"
-      ? "dxSample"
-      : "dx" + key[0].toUpperCase() + key.slice(1);
-    record[key] = $(inputId).value.trim();
-  });
-
-  const index = extractionRecords.findIndex(
-    item => item.citation.toLowerCase() === citation.toLowerCase()
-  );
-
-  if (index >= 0) {
-    record.id = extractionRecords[index].id;
-    extractionRecords[index] = record;
-    $("dxMessage").textContent = "Existing extraction record updated.";
-  } else {
-    extractionRecords.push(record);
-    $("dxMessage").textContent = "Extraction record saved. Verify it against the source paper.";
-  }
-
-  renderExtractionRecords();
-  saveCurrentProject();
 }
 
-function renderExtractionRecords() {
-  const tbody = $("dxRows");
-  tbody.replaceChildren();
-
-  extractionRecords.forEach(record => {
-    const tr = document.createElement("tr");
-    [record.citation, record.design, record.country, record.sampleSize, record.results, record.notes]
-      .forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = value || "";
-        tr.appendChild(td);
-      });
-
-    const action = document.createElement("td");
-    const load = document.createElement("button");
-    load.className = "secondary";
-    load.textContent = "Load";
-    load.onclick = () => {
-      extractionFields.forEach(([key]) => {
-        const inputId = key === "sampleSize"
-          ? "dxSample"
-          : "dx" + key[0].toUpperCase() + key.slice(1);
-        $(inputId).value = record[key] || "";
-      });
-      $("dxMessage").textContent = "Record loaded. Save to update it.";
-    };
-
-    const remove = document.createElement("button");
-    remove.className = "danger";
-    remove.textContent = "Remove";
-    remove.onclick = () => {
-      if (!confirm("Remove this extraction record?")) return;
-      extractionRecords = extractionRecords.filter(item => item.id !== record.id);
-      renderExtractionRecords();
-      saveCurrentProject();
-    };
-
-    action.append(load, remove);
-    tr.appendChild(action);
-    tbody.appendChild(tr);
-  });
-
-  $("dxCount").textContent = `${extractionRecords.length} extraction record(s) saved.`;
+function saveProjectList(list) {
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(list));
+  projects = list;
 }
 
-function downloadExtractionTemplate() {
-  const headers = extractionFields.map(([, label]) => label);
-  downloadFile(
-    "study-data-extraction-template.csv",
-    headers.map(csvCell).join(",") + "\n",
-    "text/csv;charset=utf-8"
-  );
-}
-
-function exportExtractionRecords() {
-  const headers = extractionFields.map(([, label]) => label);
-  const rows = extractionRecords.map(record =>
-    extractionFields.map(([key]) => record[key] || "")
-  );
-  downloadFile(
-    "study-data-extraction.csv",
-    [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\n"),
-    "text/csv;charset=utf-8"
-  );
-}
-
-function renderRobDomains() {
-  const target = $("robDomains");
-  target.replaceChildren();
-  const tool = $("robTool").value;
-
-  const ratings = tool === "rob2"
-    ? ["Low risk", "Some concerns", "High risk", "No information"]
-    : tool === "robinsI"
-    ? ["Low risk", "Moderate risk", "Serious risk", "Critical risk", "No information"]
-    : tool === "quadas2"
-    ? ["Low risk", "High risk", "Unclear"]
-    : ["Yes", "No", "Unclear", "Not applicable"];
-
-  robDomainsByTool[tool].forEach((domain, index) => {
-    const wrapper = document.createElement("div");
-    const label = document.createElement("label");
-    const select = document.createElement("select");
-    const id = "robDomain" + index;
-
-    label.htmlFor = id;
-    label.textContent = domain;
-
-    ["Not assessed", ...ratings].forEach(rating => {
-      const option = document.createElement("option");
-      option.value = rating;
-      option.textContent = rating;
-      select.appendChild(option);
-    });
-
-    select.id = id;
-    const rationale = document.createElement("textarea");
-    rationale.id = id + "Rationale";
-    rationale.placeholder = "Evidence, reasoning and source page number";
-    wrapper.append(label, select, rationale);
-    target.appendChild(wrapper);
-  });
-}
-
-function saveRiskAssessment() {
-  const citation = $("robCitation").value.trim();
-  if (!citation) {
-    $("robMessage").textContent = "Enter a study citation or ID.";
-    return;
-  }
-
-  const tool = $("robTool").value;
-  const domains = {};
-
-  robDomainsByTool[tool].forEach((domain, index) => {
-    domains[domain] = {
-      judgement: $("robDomain" + index).value,
-      rationale: $("robDomain" + index + "Rationale").value.trim()
-    };
-  });
-
-  const reviewer = $("robReviewer").value.trim();
-  const assessment = {
-    id: "rob-" + Date.now(),
-    citation,
-    tool,
-    reviewer,
-    overall: $("robOverall").value,
-    domains,
-    support: $("robSupport").value.trim(),
-    updatedAt: new Date().toISOString()
-  };
-
-  const index = riskAssessments.findIndex(item =>
-    item.citation.toLowerCase() === citation.toLowerCase() &&
-    item.tool === tool &&
-    (item.reviewer || "").toLowerCase() === reviewer.toLowerCase()
-  );
-
-  if (index >= 0) {
-    assessment.id = riskAssessments[index].id;
-    riskAssessments[index] = assessment;
-  } else {
-    riskAssessments.push(assessment);
-  }
-
-  $("robMessage").textContent =
-    "Assessment saved. Verify every judgement against the relevant official guidance.";
-  renderRiskAssessments();
-  saveCurrentProject();
-}
-
-function renderRiskAssessments() {
-  const tbody = $("robRows");
-  tbody.replaceChildren();
-
-  riskAssessments.forEach(item => {
-    const tr = document.createElement("tr");
-    const domainSummary = Object.entries(item.domains || {}).map(([name, value]) =>
-      `${name}: ${value.judgement}${value.rationale ? " — " + value.rationale : ""}`
-    ).join(" | ");
-
-    [item.citation, robToolLabels[item.tool] || item.tool, item.reviewer, item.overall, domainSummary]
-      .forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = value || "";
-        tr.appendChild(td);
-      });
-
-    const action = document.createElement("td");
-    const load = document.createElement("button");
-    load.className = "secondary";
-    load.textContent = "Load";
-    load.onclick = () => {
-      $("robCitation").value = item.citation;
-      $("robTool").value = item.tool;
-      renderRobDomains();
-      $("robReviewer").value = item.reviewer || "";
-      $("robOverall").value = item.overall || "Not assessed";
-      $("robSupport").value = item.support || "";
-
-      robDomainsByTool[item.tool].forEach((domain, index) => {
-        const saved = item.domains && item.domains[domain];
-        if (!saved) return;
-        $("robDomain" + index).value = saved.judgement || "Not assessed";
-        $("robDomain" + index + "Rationale").value = saved.rationale || "";
-      });
-    };
-
-    const remove = document.createElement("button");
-    remove.className = "danger";
-    remove.textContent = "Remove";
-    remove.onclick = () => {
-      if (!confirm("Remove this risk-of-bias assessment?")) return;
-      riskAssessments = riskAssessments.filter(a => a.id !== item.id);
-      renderRiskAssessments();
-      saveCurrentProject();
-    };
-
-    action.append(load, remove);
-    tr.appendChild(action);
-    tbody.appendChild(tr);
-  });
-
-  $("robCount").textContent = `${riskAssessments.length} assessment(s) saved.`;
-}
-
-function exportRiskAssessments() {
-  const headers = [
-    "Citation", "Framework", "Reviewer", "Overall judgement",
-    "Domain", "Domain judgement", "Rationale", "Overall rationale", "Updated at"
-  ];
-  const rows = [];
-  riskAssessments.forEach(item => {
-    Object.entries(item.domains || {}).forEach(([domain, value]) => {
-      rows.push([
-        item.citation, robToolLabels[item.tool] || item.tool, item.reviewer,
-        item.overall, domain, value.judgement, value.rationale, item.support, item.updatedAt
-      ]);
-    });
-  });
-
-  downloadFile(
-    "risk-of-bias-assessments.csv",
-    [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\n"),
-    "text/csv;charset=utf-8"
-  );
-}
-
-$("robTool").addEventListener("change", renderRobDomains);
-renderRobDomains();// ==========================================
-// MULTI-PROJECT WORKSPACE AND BACKUP SYSTEM
-// ==========================================
-
-const PROJECTS_KEY = "src_projects_v1";
-let projects = [];
-let activeProjectId = null;
-
-const formFieldIds = [
-  "title", "reviewType", "journal", "referenceStyle", "framework",
-  "question", "eligibility", "databases", "protocol",
-  "identified", "duplicates", "otherRemoved", "screened",
-  "titleExcluded", "reportsSought", "notRetrieved",
-  "fullAssessed", "fullExcluded", "included",
-  "authors", "abstractType", "abstractBackground", "searchDate",
-  "studyDesigns", "methodsNotes", "resultsNotes", "discussionNotes",
-  "limitationsNotes", "conclusionNotes", "fundingNotes",
-  "referencesNotes", "manuscriptOutput"
-];
-
-function makeId() {
-  return "project-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
-}
-
-function collectFormData() {
+function captureProjectFields() {
   const fields = {};
-  formFieldIds.forEach(id => {
-    if ($(id)) fields[id] = $(id).value;
+  document.querySelectorAll("main input:not([type=file]), main textarea, main select").forEach(el => {
+    if (el.id && el.id !== "projectSelect") fields[el.id] = el.value;
   });
   return fields;
 }
 
-function currentProjectObject() {
-  const title = $("title").value.trim();
-  return {
-    id: activeProjectId || makeId(),
-    name: title || "Untitled review",
-    updatedAt: new Date().toISOString(),
-    fields: collectFormData(),
-    reviewData: JSON.parse(JSON.stringify(reviewData)),
-    studies: JSON.parse(JSON.stringify(studies)),
-    extraction: JSON.parse(JSON.stringify(extraction)),
-    extractionRecords: JSON.parse(JSON.stringify(extractionRecords)),
-    riskAssessments: JSON.parse(JSON.stringify(riskAssessments))
-  };
-}
+function saveCurrentProject() {
+  if (isApplyingProject) return true;
 
-function persistProjects() {
   try {
-    localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
-    return true;
-  } catch (e) {
+    projects = readProjects();
+    const title = $("title").value.trim();
+    const project = {
+      id: activeProjectId || "project-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+      name: title || "Untitled review",
+      updatedAt: new Date().toISOString(),
+      fields: captureProjectFields(),
+      studies: JSON.parse(JSON.stringify(studies)),
+      extraction: JSON.parse(JSON.stringify(extraction)),
+      extractionRecords: JSON.parse(JSON.stringify(extractionRecords)),
+      riskAssessments: JSON.parse(JSON.stringify(riskAssessments))
+    };
+
+    const index = projects.findIndex(item => item.id === project.id);
+    if (index >= 0) projects[index] = project;
+    else projects.push(project);
+
+    saveProjectList(projects);
+    activeProjectId = project.id;
+    localStorage.setItem(ACTIVE_PROJECT_KEY, project.id);
+    renderProjectSelector();
+
     $("projectStatus").textContent =
-      "Could not save to browser storage. Export a JSON backup.";
+      "Saved locally at " + new Date().toLocaleTimeString() +
+      ". Export a backup to keep a separate copy.";
+    return true;
+  } catch (error) {
+    $("projectStatus").textContent =
+      "Could not save locally: " + error.message + ". Export or copy your work if possible.";
     return false;
   }
 }
 
-function saveCurrentProject() {
-  if (!activeProjectId) activeProjectId = makeId();
-
-  const fresh = currentProjectObject();
-  fresh.id = activeProjectId;
-
-  const index = projects.findIndex(project => project.id === activeProjectId);
-  if (index >= 0) {
-    projects[index] = fresh;
-  } else {
-    projects.push(fresh);
-  }
-
-  persistProjects();
-  renderProjectSelector();
-
-  $("projectStatus").textContent =
-    `Saved: ${fresh.name} · ${new Date().toLocaleString()}`;
-}
-
-function loadCurrentProjectToForm() {
-  const project = projects.find(p => p.id === activeProjectId);
-  if (!project) return;
-
-  const fields = project.fields || {};
-  formFieldIds.forEach(id => {
-    if ($(id) && Object.prototype.hasOwnProperty.call(fields, id)) {
-      $(id).value = fields[id] == null ? "" : fields[id];
-    }
-  });
-
-  reviewData = project.reviewData || {};
-  studies = Array.isArray(project.studies) ? project.studies : [];
-  extraction = project.extraction &&
-    Array.isArray(project.extraction.headers) &&
-    Array.isArray(project.extraction.rows)
-      ? project.extraction
-      : { headers: [], rows: [] };
-
-  extractionRecords = Array.isArray(project.extractionRecords)
-    ? project.extractionRecords
-    : [];
-
-  riskAssessments = Array.isArray(project.riskAssessments)
-    ? project.riskAssessments
-    : [];
-
-  renderStudies();
-  renderExtractionRecords();
-  renderRiskAssessments();
-  renderProjectSelector();
-
-  $("projectStatus").textContent = `Loaded project: ${project.name}`;
-}
-
-function applyProject(project) {
-  activeProjectId = project.id;
-  loadCurrentProjectToForm();
-}
-
 function renderProjectSelector() {
-  const select = $("projectSelect");
-  if (!select) return;
+  const selector = $("projectSelect");
+  if (!selector) return;
 
-  select.replaceChildren();
+  projects = readProjects().sort((a, b) =>
+    String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""))
+  );
+  selector.replaceChildren();
+
+  if (!projects.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No saved projects";
+    selector.appendChild(option);
+    return;
+  }
 
   projects.forEach(project => {
     const option = document.createElement("option");
     option.value = project.id;
-    option.textContent = project.name || "Untitled review";
-    select.appendChild(option);
+    option.textContent = (project.name || "Untitled review") +
+      (project.updatedAt ? " · " + new Date(project.updatedAt).toLocaleDateString() : "");
+    selector.appendChild(option);
   });
+  selector.value = activeProjectId || projects[0].id;
+}
 
-  if (activeProjectId) select.value = activeProjectId;
+function applyProject(project) {
+  if (!project || !project.fields) return;
+
+  isApplyingProject = true;
+  try {
+    Object.entries(project.fields).forEach(([id, value]) => {
+      const element = $(id);
+      if (element && !["file", "button", "submit"].includes(element.type)) {
+        element.value = value ?? "";
+      }
+    });
+
+    studies = Array.isArray(project.studies) ? project.studies : [];
+    extraction = project.extraction &&
+      Array.isArray(project.extraction.headers) &&
+      Array.isArray(project.extraction.rows)
+      ? project.extraction : { headers: [], rows: [] };
+
+    extractionRecords = Array.isArray(project.extractionRecords) ? project.extractionRecords : [];
+    riskAssessments = Array.isArray(project.riskAssessments) ? project.riskAssessments : [];
+    activeProjectId = project.id;
+    localStorage.setItem(ACTIVE_PROJECT_KEY, project.id);
+
+    renderStudies();
+    renderExtractionRecords();
+    renderRiskAssessments();
+    renderExtractionPreview();
+    renderProjectSelector();
+
+    $("projectStatus").textContent =
+      "Opened project: " + (project.name || "Untitled review") +
+      ". Changes autosave in this browser.";
+  } finally {
+    isApplyingProject = false;
+  }
+}
+
+function openProject(projectId) {
+  if (!projectId || projectId === activeProjectId) return;
+  clearTimeout(projectAutosaveTimer);
+  if (activeProjectId && !saveCurrentProject()) return;
+
+  const project = readProjects().find(item => item.id === projectId);
+  if (project) applyProject(project);
 }
 
 function createNewProject() {
-  if (activeProjectId && !confirm(
-    "Create a new project? Make sure your current project is saved."
-  )) return;
+  const name = prompt("Enter a name for your new review:");
+  if (!name || !name.trim()) return;
 
-  saveCurrentProject();
+  clearTimeout(projectAutosaveTimer);
+  if (activeProjectId && !saveCurrentProject()) return;
 
-  const project = {
-    id: makeId(),
-    name: "New review",
-    updatedAt: new Date().toISOString(),
-    fields: {},
-    reviewData: {},
-    studies: [],
-    extraction: { headers: [], rows: [] },
-    extractionRecords: [],
-    riskAssessments: []
-  };
+  isApplyingProject = true;
+  try {
+    document.querySelectorAll("main input:not([type=file]), main textarea, main select").forEach(el => {
+      if (el.id === "projectSelect") return;
+      if (el.tagName === "SELECT") el.selectedIndex = 0;
+      else el.value = el.defaultValue || "";
+    });
 
-  projects.push(project);
-  activeProjectId = project.id;
+    studies = [];
+    extraction = { headers: [], rows: [] };
+    extractionRecords = [];
+    riskAssessments = [];
+    activeProjectId = null;
 
-  formFieldIds.forEach(id => {
-    if ($(id)) {
-      if ($(id).tagName === "SELECT") {
-        $(id).selectedIndex = 0;
-      } else {
-        $(id).value = "";
-      }
-    }
-  });
-
-  studies = [];
-  reviewData = {};
-  extraction = { headers: [], rows: [] };
-  extractionRecords = [];
-  riskAssessments = [];
-
-  // Reset PRISMA fields to zero in a new project.
-  [
-    "identified", "duplicates", "otherRemoved", "screened",
-    "titleExcluded", "reportsSought", "notRetrieved",
-    "fullAssessed", "fullExcluded", "included"
-  ].forEach(id => {
-    if ($(id)) $(id).value = "0";
-  });
-
-  $("prismaResult").textContent = "";
-  $("extractionPreview").textContent = "";
-  $("reviewMessage").textContent = "";
-  $("screenMessage").textContent = "No studies recorded yet.";
-  $("dxMessage").textContent = "";
-  $("robMessage").textContent = "";
-  $("manuscriptMessage").textContent = "";
-
-  renderStudies();
-  renderExtractionRecords();
-  renderRobDomains();
-  renderRiskAssessments();
+    renderStudies();
+    renderExtractionPreview();
+    renderExtractionRecords();
+    renderRiskAssessments();
+    $("title").value = name.trim();
+  } finally {
+    isApplyingProject = false;
+  }
   saveCurrentProject();
 }
 
 function exportProjectBackup() {
-  saveCurrentProject();
+  clearTimeout(projectAutosaveTimer);
+  if (activeProjectId && !saveCurrentProject()) return;
+
+  const allProjects = readProjects();
+  if (!allProjects.length) {
+    alert("There are no saved projects to back up yet.");
+    return;
+  }
 
   const backup = {
-    app: "Systematic Review Copilot",
-    formatVersion: 2,
+    format: "systematic-review-copilot-backup",
+    version: 1,
     exportedAt: new Date().toISOString(),
     activeProjectId,
-    projects
+    projects: allProjects
   };
 
-  downloadFile(
-    "systematic-review-copilot-backup.json",
-    JSON.stringify(backup, null, 2),
-    "application/json;charset=utf-8"
-  );
+  downloadFile("systematic-review-copilot-backup.json", JSON.stringify(backup, null, 2), "application/json");
 }
 
 async function importProjectBackup(event) {
-  const file = event.target.files[0];
+  const file = event.target.files?.[0];
   if (!file) return;
 
   try {
-    const parsed = JSON.parse(await file.text());
-    const incoming = Array.isArray(parsed) ? parsed : parsed.projects;
+    const backup = JSON.parse(await file.text());
 
-    if (!Array.isArray(incoming)) {
-      throw new Error("This file does not contain a valid projects array.");
+    if (backup.format !== "systematic-review-copilot-backup" ||
+        backup.version !== 1 || !Array.isArray(backup.projects)) {
+      throw new Error("This is not a supported Copilot backup file.");
     }
 
-    const validProjects = incoming.filter(project =>
-      project && typeof project === "object" &&
-      typeof project.id === "string"
+    const valid = backup.projects.every(project =>
+      project && typeof project.id === "string" &&
+      project.fields && typeof project.fields === "object" &&
+      Array.isArray(project.studies)
     );
-
-    if (!validProjects.length) {
-      throw new Error("No valid projects were found in the backup.");
-    }
+    if (!valid) throw new Error("One or more projects have an invalid format.");
 
     if (!confirm(
-      `Import ${validProjects.length} project(s)? Projects with matching IDs will be replaced.`
+      "Restore this backup? It will replace all projects currently stored in this browser. " +
+      "Export your current projects first if you need them."
     )) return;
 
-    validProjects.forEach(project => {
-      const index = projects.findIndex(item => item.id === project.id);
-      if (index >= 0) projects[index] = project;
-      else projects.push(project);
-    });
+    saveProjectList(backup.projects);
+    const selected = backup.projects.find(p => p.id === backup.activeProjectId) || backup.projects[0];
 
-    const preferredId = !Array.isArray(parsed) && parsed.activeProjectId;
-    activeProjectId = projects.some(p => p.id === preferredId)
-      ? preferredId
-      : validProjects[0].id;
-
-    persistProjects();
-    loadCurrentProjectToForm();
-
-    $("projectStatus").textContent =
-      `Imported ${validProjects.length} project(s) successfully.`;
+    if (selected) applyProject(selected);
+    else {
+      activeProjectId = null;
+      renderProjectSelector();
+    }
+    $("projectStatus").textContent = "Backup restored successfully.";
   } catch (error) {
-    $("projectStatus").textContent = "Backup import failed: " + error.message;
+    $("projectStatus").textContent = "Backup could not be restored: " + error.message;
   } finally {
     event.target.value = "";
   }
 }
 
-function initializeWorkspace() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(PROJECTS_KEY) || "null");
-    if (Array.isArray(saved) && saved.length) projects = saved;
-  } catch (e) {
-    projects = [];
-  }
-
-  // Migrate data from the earlier single-project version if needed.
-  if (!projects.length) {
-    try {
-      const oldStudies = JSON.parse(localStorage.getItem("src_studies") || "[]");
-      const oldReview = JSON.parse(localStorage.getItem("src_review") || "{}");
-      const oldManuscript = JSON.parse(localStorage.getItem("src_manuscript") || "{}");
-
-      const migrated = {
-        id: makeId(),
-        name: oldReview.title || "My existing review",
-        updatedAt: new Date().toISOString(),
-        fields: {},
-        reviewData: oldReview,
-        studies: Array.isArray(oldStudies) ? oldStudies : [],
-        extraction: { headers: [], rows: [] },
-        extractionRecords: [],
-        riskAssessments: []
-      };
-
-      Object.keys(oldReview || {}).forEach(key => {
-        if ($(key)) migrated.fields[key] = oldReview[key];
-      });
-
-      Object.keys(oldManuscript || {}).forEach(key => {
-        if ($(key)) migrated.fields[key] = oldManuscript[key];
-      });
-
-      projects = [migrated];
-    } catch (e) {
-      projects = [];
-    }
-  }
-
-  if (!projects.length) {
-    projects = [{
-      id: makeId(),
-      name: "My first review",
-      updatedAt: new Date().toISOString(),
-      fields: {},
-      reviewData: {},
-      studies: [],
-      extraction: { headers: [], rows: [] },
-      extractionRecords: [],
-      riskAssessments: []
-    }];
-  }
-
-  activeProjectId = projects[0].id;
-  persistProjects();
-  loadCurrentProjectToForm();
+function scheduleProjectAutosave() {
+  if (isApplyingProject) return;
+  clearTimeout(projectAutosaveTimer);
+  projectAutosaveTimer = setTimeout(() => saveCurrentProject(), 700);
 }
 
-$("projectSelect").addEventListener("change", () => {
-  saveCurrentProject();
-  activeProjectId = $("projectSelect").value;
-  loadCurrentProjectToForm();
+function initializeProjectWorkspace() {
+  projects = readProjects();
+
+  if (projects.length) {
+    const rememberedId = localStorage.getItem(ACTIVE_PROJECT_KEY);
+    const remembered = projects.find(project => project.id === rememberedId);
+    applyProject(remembered || projects[0]);
+  } else {
+    try {
+      const savedReview = JSON.parse(localStorage.getItem("src_review") || "null");
+      if (savedReview) {
+        Object.entries(savedReview).forEach(([id, value]) => {
+          if ($(id)) $(id).value = value ?? "";
+        });
+      }
+
+      studies = JSON.parse(localStorage.getItem("src_studies") || "[]");
+
+      const savedManuscript = JSON.parse(localStorage.getItem("src_manuscript") || "null");
+      if (savedManuscript) {
+        Object.entries(savedManuscript).forEach(([id, value]) => {
+          if ($(id)) $(id).value = value ?? "";
+        });
+      }
+    } catch (error) {
+      console.warn("Could not migrate previous local data.", error);
+      studies = [];
+    }
+
+    renderStudies();
+    renderExtractionPreview();
+    renderExtractionRecords();
+    renderRiskAssessments();
+    saveCurrentProject();
+  }
+
+  renderProjectSelector();
+}
+
+$("projectSelect").addEventListener("change", event => openProject(event.target.value));
+$("robTool").addEventListener("change", renderRobDomains);
+
+document.querySelectorAll("main input:not([type=file]), main textarea, main select").forEach(element => {
+  if (element.id !== "projectSelect") {
+    element.addEventListener("input", scheduleProjectAutosave);
+    element.addEventListener("change", scheduleProjectAutosave);
+  }
 });
 
-// Save edits made in text inputs into the active project.
-formFieldIds.forEach(id => {
-  if (!$(id)) return;
-  $(id).addEventListener("change", () => saveCurrentProject());
-});
-
-initializeWorkspace();
+initializeProjectWorkspace();
+renderExtractionRecords();
+renderRobDomains();
+renderRiskAssessments();
 </script>
 </body>
 </html>
