@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,175 +6,412 @@
 <title>Systematic Review Copilot</title>
 <style>
 :root {
-  --green:#244b3b; --gold:#b99b62; --ivory:#f8f6ef;
-  --ink:#26352e; --muted:#69766e; --white:#fff;
+  --green: #244b3b;
+  --green2: #315d49;
+  --gold: #b99b62;
+  --ivory: #f8f6ef;
+  --ink: #26352e;
+  --muted: #69766e;
+  --white: #fff;
+  --line: #e2e3da;
+  --soft: #eaece4;
+  --danger: #9c3d36;
 }
-* {box-sizing:border-box}
+
+* { box-sizing: border-box; }
+
 body {
-  margin:0; background:var(--ivory); color:var(--ink);
-  font-family:Arial, sans-serif; line-height:1.6;
+  margin: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
 }
+
 header {
-  background:var(--green); color:white; padding:24px 6%;
+  background: var(--green);
+  color: white;
+  padding: 24px 5%;
+  border-bottom: 4px solid var(--gold);
 }
-header h1 {margin:0;font-size:25px}
-header p {margin:5px 0 0;color:#e2e8e2}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+header p {
+  margin: 5px 0 0;
+  color: #e2e8e2;
+}
+
 .layout {
-  display:grid;grid-template-columns:220px 1fr;min-height:85vh;
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+  min-height: 82vh;
 }
-nav {background:#eaece4;padding:24px 14px}
+
+nav {
+  background: var(--soft);
+  padding: 22px 13px;
+}
+
 nav button {
-  display:block;width:100%;text-align:left;padding:12px;
-  margin-bottom:7px;border:0;border-radius:8px;
-  background:transparent;color:var(--ink);cursor:pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  margin-bottom: 7px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
 }
-nav button.active,nav button:hover {
-  background:var(--green);color:white;
+
+nav button.active,
+nav button:hover {
+  background: var(--green);
+  color: white;
 }
-main {padding:28px;max-width:1100px;width:100%}
-h2 {color:var(--green);margin-top:0}
-h3 {color:var(--green)}
+
+main {
+  padding: 28px;
+  max-width: 1250px;
+  width: 100%;
+  min-width: 0;
+}
+
+h2, h3 { color: var(--green); }
+h2 { margin-top: 0; }
+h3 { margin-top: 0; }
+
 .card {
-  background:white;border:1px solid #e2e3da;
-  border-radius:13px;padding:20px;margin-bottom:18px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 20px;
+  margin-bottom: 18px;
 }
+
 .stats {
-  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
-.stat strong {display:block;font-size:27px;color:var(--green)}
-label {display:block;font-weight:bold;margin:12px 0 5px}
-input,textarea,select {
-  width:100%;padding:11px;border:1px solid #cbd2c9;
-  border-radius:7px;background:white;font:inherit;
+
+.stat strong {
+  display: block;
+  font-size: 28px;
+  color: var(--green);
 }
-textarea {min-height:130px;resize:vertical}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 12px 0 5px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #cbd2c9;
+  border-radius: 7px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
 button.primary {
-  background:var(--green);color:white;border:0;
-  border-radius:7px;padding:11px 17px;margin-top:12px;
-  cursor:pointer;font:inherit;
+  background: var(--green);
+  color: white;
+  border: 0;
+  border-radius: 7px;
+  padding: 11px 17px;
+  margin: 8px 8px 0 0;
+  cursor: pointer;
+  font: inherit;
 }
+
+button.primary:hover { background: var(--green2); }
+
 button.secondary {
-  background:#ece8dc;color:var(--ink);border:0;
-  border-radius:7px;padding:9px 13px;cursor:pointer;
+  background: #ece8dc;
+  color: var(--ink);
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 13px;
+  cursor: pointer;
+  font: inherit;
+  margin: 8px 8px 0 0;
 }
-.result {white-space:pre-wrap;overflow-wrap:anywhere}
-small,.muted {color:var(--muted)}
-table {width:100%;border-collapse:collapse}
-th,td {text-align:left;padding:10px;border-bottom:1px solid #e4e5df}
-th {background:#eef0e9}
-.panel {display:none}
-.panel.active {display:block}
-footer {padding:20px;text-align:center;color:var(--muted)}
-@media(max-width:700px) {
- .layout {grid-template-columns:1fr}
- nav {display:flex;overflow-x:auto;padding:8px}
- nav button {min-width:max-content;width:auto;margin:0 4px}
- main {padding:16px}
- .stats {grid-template-columns:1fr}
+
+button.danger {
+  background: #f7e7e4;
+  color: var(--danger);
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.muted, small { color: var(--muted); }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.result {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin-top: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #e4e5df;
+  vertical-align: top;
+}
+
+th { background: #eef0e9; }
+
+.table-wrap { overflow-x: auto; }
+
+.notice {
+  background: #f5f1e5;
+  border-left: 4px solid var(--gold);
+  padding: 12px 14px;
+  border-radius: 5px;
+  margin-bottom: 18px;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+@media(max-width:760px) {
+  .layout { grid-template-columns: 1fr; }
+  nav {
+    display: flex;
+    overflow-x: auto;
+    padding: 8px;
+  }
+  nav button {
+    min-width: max-content;
+    width: auto;
+    margin: 0 4px;
+  }
+  main { padding: 15px; }
+  .stats, .grid2, .grid3 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <h1>✦ Systematic Review Copilot</h1>
   <p>Your workspace for evidence synthesis and manuscript preparation</p>
 </header>
+
 <div class="layout">
-<nav>
+
+<nav aria-label="Main navigation">
   <button class="active" data-panel="home">⌂ Dashboard</button>
   <button data-panel="review">▤ Review Setup</button>
   <button data-panel="prisma">◈ PRISMA Calculator</button>
   <button data-panel="screening">☷ Study Screening</button>
   <button data-panel="manuscript">✎ Manuscript Studio</button>
 </nav>
+
 <main>
+
+<!-- DASHBOARD -->
 <section id="home" class="panel active">
   <h2>Welcome to your research workspace</h2>
   <p class="muted">Organize your systematic review from protocol to manuscript.</p>
+
   <div class="stats">
-    <div class="card stat"><strong id="studyCount">0</strong>Studies recorded</div>
-    <div class="card stat"><strong id="includedCount">0</strong>Studies included</div>
-    <div class="card stat"><strong>5</strong>Workspace modules</div>
+    <div class="card stat">
+      <strong id="studyCount">0</strong>
+      Studies recorded
+    </div>
+    <div class="card stat">
+      <strong id="includedCount">0</strong>
+      Studies marked Include
+    </div>
+    <div class="card stat">
+      <strong>5</strong>
+      Workspace modules
+    </div>
   </div>
+
   <div class="card">
     <h3>Getting started</h3>
     <p>1. Enter your review question and eligibility criteria.</p>
-    <p>2. Calculate your PRISMA screening counts.</p>
-    <p>3. Record screening decisions for individual studies.</p>
-    <p>4. Draft manuscript sections from your verified findings.</p>
+    <p>2. Enter and check PRISMA counts.</p>
+    <p>3. Record study screening decisions.</p>
+    <p>4. Add verified findings and build your manuscript.</p>
   </div>
+
   <div class="card">
-    <h3>Important</h3>
-    <p>This initial version runs in your browser. It does not send data to an AI model or save records to a central database. Export your work regularly. Avoid entering identifiable patient information.</p>
+    <h3>Evidence-first writing</h3>
+    <p>This app runs in your browser without a paid AI API. It builds structured drafts using templates and your verified research information. It does not independently verify evidence, search databases, perform statistical meta-analysis, or invent valid references. Check every claim and citation before submission.</p>
   </div>
 </section>
 
+<!-- REVIEW SETUP -->
 <section id="review" class="panel">
   <h2>Review Setup</h2>
+
   <div class="card">
     <label for="title">Review title</label>
-    <input id="title" placeholder="Enter your systematic review title">
-    <label for="question">Research question</label>
-    <textarea id="question" placeholder="PICO, PEO or your review question"></textarea>
-    <label for="eligibility">Inclusion and exclusion criteria</label>
-    <textarea id="eligibility" placeholder="Define your eligibility criteria"></textarea>
+    <input id="title" placeholder="Enter the full review title">
+
+    <div class="grid2">
+      <div>
+        <label for="reviewType">Review type</label>
+        <select id="reviewType">
+          <option>Systematic review</option>
+          <option>Systematic review and meta-analysis</option>
+          <option>Scoping review</option>
+          <option>Diagnostic test accuracy review</option>
+          <option>Rapid review</option>
+          <option>Other evidence synthesis</option>
+        </select>
+      </div>
+      <div>
+        <label for="journal">Target journal</label>
+        <input id="journal" placeholder="Journal name and word limit">
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <label for="referenceStyle">Reference style</label>
+        <select id="referenceStyle">
+          <option>Vancouver</option>
+          <option>Harvard</option>
+          <option>APA</option>
+          <option>Other / journal-specific</option>
+        </select>
+      </div>
+      <div>
+        <label for="framework">Question framework</label>
+        <select id="framework">
+          <option>PICO</option>
+          <option>PEO</option>
+          <option>PCC</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="question">Research question / objective</label>
+    <textarea id="question" placeholder="Enter your exact review question and primary objective"></textarea>
+
+    <label for="eligibility">Eligibility criteria</label>
+    <textarea id="eligibility" placeholder="Population, intervention or exposure, comparator, outcomes, study designs, dates, languages and exclusions"></textarea>
+
+    <label for="databases">Databases and information sources</label>
+    <textarea id="databases" placeholder="Databases searched and actual search dates"></textarea>
+
+    <label for="protocol">Protocol registration / reporting guidance</label>
+    <input id="protocol" placeholder="PROSPERO registration number and reporting guideline">
+
     <button class="primary" onclick="saveReview()">Save review locally</button>
-    <button class="secondary" onclick="exportReview()">Export review setup</button>
-    <p id="reviewMessage" class="muted"></p>
+    <button class="secondary" onclick="exportReview()">Export setup JSON</button>
+    <p id="reviewMessage" class="muted" role="status"></p>
   </div>
 </section>
 
+<!-- PRISMA -->
 <section id="prisma" class="panel">
   <h2>PRISMA Count Calculator</h2>
-  <p class="muted">Enter counts from your screening records. These are arithmetic checks, not a substitute for a completed PRISMA flow diagram.</p>
+  <p class="muted">Enter your verified counts. These arithmetic checks do not replace the PRISMA flow diagram.</p>
+
   <div class="card">
-    <label for="identified">Records identified</label>
-    <input type="number" min="0" id="identified" value="0">
-    <label for="duplicates">Duplicate records removed</label>
-    <input type="number" min="0" id="duplicates" value="0">
-    <label for="otherRemoved">Other records removed before screening</label>
-    <input type="number" min="0" id="otherRemoved" value="0">
-    <label for="screened">Records screened</label>
-    <input type="number" min="0" id="screened" value="0">
-    <label for="titleExcluded">Records excluded at title/abstract screening</label>
-    <input type="number" min="0" id="titleExcluded" value="0">
-    <label for="reportsSought">Reports sought for retrieval</label>
-    <input type="number" min="0" id="reportsSought" value="0">
-    <label for="notRetrieved">Reports not retrieved</label>
-    <input type="number" min="0" id="notRetrieved" value="0">
-    <label for="fullAssessed">Reports assessed for eligibility</label>
-    <input type="number" min="0" id="fullAssessed" value="0">
-    <label for="fullExcluded">Reports excluded after full-text assessment</label>
-    <input type="number" min="0" id="fullExcluded" value="0">
-    <label for="included">Studies included in review</label>
-    <input type="number" min="0" id="included" value="0">
+    <div class="grid2">
+      <div><label for="identified">Records identified</label><input type="number" min="0" id="identified" value="0"></div>
+      <div><label for="duplicates">Duplicate records removed</label><input type="number" min="0" id="duplicates" value="0"></div>
+      <div><label for="otherRemoved">Other records removed before screening</label><input type="number" min="0" id="otherRemoved" value="0"></div>
+      <div><label for="screened">Records screened</label><input type="number" min="0" id="screened" value="0"></div>
+      <div><label for="titleExcluded">Title/abstract records excluded</label><input type="number" min="0" id="titleExcluded" value="0"></div>
+      <div><label for="reportsSought">Reports sought for retrieval</label><input type="number" min="0" id="reportsSought" value="0"></div>
+      <div><label for="notRetrieved">Reports not retrieved</label><input type="number" min="0" id="notRetrieved" value="0"></div>
+      <div><label for="fullAssessed">Reports assessed for eligibility</label><input type="number" min="0" id="fullAssessed" value="0"></div>
+      <div><label for="fullExcluded">Reports excluded after full text</label><input type="number" min="0" id="fullExcluded" value="0"></div>
+      <div><label for="included">Studies included in review</label><input type="number" min="0" id="included" value="0"></div>
+    </div>
+
     <button class="primary" onclick="calculatePrisma()">Check counts</button>
-    <button class="secondary" onclick="exportPrisma()">Export counts</button>
+    <button class="secondary" onclick="exportPrisma()">Export counts CSV</button>
     <div id="prismaResult" class="result" aria-live="polite"></div>
   </div>
 </section>
 
+<!-- STUDY SCREENING -->
 <section id="screening" class="panel">
   <h2>Study Screening Tracker</h2>
+
   <div class="card">
     <label for="citation">Study citation or ID</label>
     <input id="citation" placeholder="Author, year or reference ID">
+
     <label for="decision">Screening decision</label>
     <select id="decision">
-      <option value="Pending">Pending</option>
-      <option value="Include">Include</option>
-      <option value="Exclude">Exclude</option>
-      <option value="Full-text assessment">Full-text assessment</option>
+      <option>Pending</option>
+      <option>Include</option>
+      <option>Exclude</option>
+      <option>Full-text assessment</option>
     </select>
+
     <label for="reason">Reason or notes</label>
-    <input id="reason" placeholder="Record a specific exclusion reason if applicable">
+    <input id="reason" placeholder="Record the specific exclusion reason">
+
     <button class="primary" onclick="addStudy()">Add study</button>
-    <button class="secondary" onclick="exportStudies()">Export CSV</button>
+    <button class="secondary" onclick="exportStudies()">Export screening CSV</button>
+
+    <label for="studyImport">Import screening CSV</label>
+    <input id="studyImport" type="file" accept=".csv,text/csv" onchange="importStudies(event)">
   </div>
+
   <div class="card">
-    <div style="overflow-x:auto">
+    <div class="table-wrap">
       <table>
-        <thead><tr><th>Study</th><th>Decision</th><th>Notes</th><th>Action</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Study</th>
+            <th>Decision</th>
+            <th>Notes</th>
+            <th>Action</th>
+          </tr>
+        </thead>
         <tbody id="studyRows"></tbody>
       </table>
     </div>
@@ -183,127 +419,710 @@ footer {padding:20px;text-align:center;color:var(--muted)}
   </div>
 </section>
 
+<!-- MANUSCRIPT STUDIO -->
 <section id="manuscript" class="panel">
   <h2>Manuscript Studio</h2>
-  <p class="muted">Create a structured draft using your own verified research information. This version does not generate AI content or invent references.</p>
-  <div class="card">
-    <label for="sectionType">Manuscript section</label>
-    <select id="sectionType">
-      <option>Abstract</option><option>Introduction</option>
-      <option>Methods</option><option>Results</option>
-      <option>Discussion</option><option>Conclusion</option>
-    </select>
-    <label for="draft">Your notes and verified findings</label>
-    <textarea id="draft" style="min-height:240px" placeholder="Enter your notes, results, study counts, and reference placeholders..."></textarea>
-    <button class="primary" onclick="prepareDraft()">Prepare draft</button>
-    <button class="secondary" onclick="downloadDraft()">Download text</button>
+  <p class="muted">Build a structured manuscript from your verified research information without paid AI APIs.</p>
+
+  <div class="notice">
+    <strong>Evidence-first workflow:</strong>
+    enter factual findings, study counts, methods and verified references. Missing information is flagged instead of guessed.
   </div>
+
   <div class="card">
-    <h3>Working draft</h3>
-    <div id="draftOutput" class="result">Your prepared draft will appear here.</div>
-    <button class="secondary" onclick="copyDraft()">Copy draft</button>
+    <h3>1. Manuscript details and evidence</h3>
+
+    <label for="authors">Authors and affiliations</label>
+    <textarea id="authors" placeholder="Author names, affiliations and corresponding author details"></textarea>
+
+    <label for="abstractType">Abstract format</label>
+    <select id="abstractType">
+      <option>Structured</option>
+      <option>Unstructured</option>
+    </select>
+
+    <label for="abstractBackground">Abstract background</label>
+    <textarea id="abstractBackground" placeholder="Briefly describe the topic and evidence gap"></textarea>
+
+    <div class="grid2">
+      <div>
+        <label for="searchDate">Last search date</label>
+        <input id="searchDate" placeholder="Enter the actual search date">
+      </div>
+      <div>
+        <label for="studyDesigns">Included study designs</label>
+        <input id="studyDesigns" placeholder="e.g., retrospective cohorts">
+      </div>
+    </div>
+
+    <label for="methodsNotes">Methods: verified information</label>
+    <textarea id="methodsNotes" placeholder="Screening reviewers, extraction process, risk-of-bias tool, synthesis methods, effect measures and software actually used"></textarea>
+
+    <label for="resultsNotes">Results: verified findings</label>
+    <textarea id="resultsNotes" placeholder="Included studies, participants, outcomes, effect estimates, confidence intervals, heterogeneity and risk-of-bias findings"></textarea>
+
+    <label for="discussionNotes">Discussion: interpretation and context</label>
+    <textarea id="discussionNotes" placeholder="Principal findings, comparison with previous literature using verified references, implications and certainty of evidence"></textarea>
+
+    <label for="limitationsNotes">Limitations and strengths</label>
+    <textarea id="limitationsNotes" placeholder="Limitations of the included evidence and review methods; strengths and potential biases"></textarea>
+
+    <label for="conclusionNotes">Conclusion and implications</label>
+    <textarea id="conclusionNotes" placeholder="Conclusion proportionate to the evidence"></textarea>
+
+    <label for="fundingNotes">Funding, conflicts, data availability and acknowledgements</label>
+    <textarea id="fundingNotes" placeholder="Enter accurate declarations or confirm that a declaration is not applicable"></textarea>
+
+    <label for="referencesNotes">Verified references / citation placeholders</label>
+    <textarea id="referencesNotes" placeholder="Paste the reference list or placeholders. Verify every reference before submission."></textarea>
+
+    <label for="extractionFile">Import study characteristics CSV</label>
+    <input id="extractionFile" type="file" accept=".csv,text/csv" onchange="importExtraction(event)">
+
+    <p class="muted">For Excel files, export the relevant worksheet as CSV first. The imported data is displayed for inspection; it is not automatically statistically analysed.</p>
+
+    <div id="extractionPreview" class="result"></div>
+
+    <button class="primary" onclick="buildManuscript()">Build complete manuscript</button>
+    <button class="secondary" onclick="saveManuscript()">Save draft</button>
+    <button class="secondary" onclick="loadManuscript()">Load saved draft</button>
+  </div>
+
+  <div class="card">
+    <h3>2. Edit your complete manuscript</h3>
+    <p class="muted">Edit the generated draft directly. Replace placeholders with verified information before submission.</p>
+
+    <label for="manuscriptOutput">Complete manuscript draft</label>
+    <textarea id="manuscriptOutput" style="min-height:460px" placeholder="Your manuscript will appear here after you build it."></textarea>
+
+    <button class="primary" onclick="downloadMarkdown()">Download Markdown (.md)</button>
+    <button class="primary" onclick="downloadWord()">Download Word-compatible document (.doc)</button>
+    <button class="secondary" onclick="copyManuscript()">Copy manuscript</button>
+    <button class="secondary" onclick="downloadText()">Download plain text</button>
+
+    <p id="manuscriptMessage" class="muted" role="status"></p>
   </div>
 </section>
+
 </main>
 </div>
-<footer>Systematic Review Copilot · Research assistance, with human verification</footer>
+
+<footer>
+  Systematic Review Copilot · Template-based research assistance · Human verification required
+</footer>
+
 <script>
 const $ = id => document.getElementById(id);
+
 let studies = [];
 let reviewData = {};
-let currentDraft = "";
+let extraction = { headers: [], rows: [] };
 
 document.querySelectorAll("nav button").forEach(button => {
   button.addEventListener("click", () => {
-    document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
     button.classList.add("active");
     $(button.dataset.panel).classList.add("active");
   });
 });
 
-function downloadFile(name, content, type="text/plain;charset=utf-8") {
-  const url = URL.createObjectURL(new Blob([content],{type}));
-  const a=document.createElement("a");
-  a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
+function downloadFile(name, content, type = "text/plain;charset=utf-8") {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
 function saveReview() {
-  reviewData={title:$("title").value,question:$("question").value,eligibility:$("eligibility").value};
-  $("reviewMessage").textContent="Review details captured for this session. Export them to keep a copy.";
+  reviewData = {
+    title: $("title").value,
+    reviewType: $("reviewType").value,
+    journal: $("journal").value,
+    referenceStyle: $("referenceStyle").value,
+    framework: $("framework").value,
+    question: $("question").value,
+    eligibility: $("eligibility").value,
+    databases: $("databases").value,
+    protocol: $("protocol").value
+  };
+
+  try {
+    localStorage.setItem("src_review", JSON.stringify(reviewData));
+    $("reviewMessage").textContent = "Saved in this browser.";
+  } catch (e) {
+    $("reviewMessage").textContent = "Browser storage unavailable. Export a backup.";
+  }
 }
+
 function exportReview() {
   saveReview();
-  downloadFile("review-setup.json",JSON.stringify(reviewData,null,2),"application/json");
+  downloadFile("review-setup.json", JSON.stringify(reviewData, null, 2), "application/json");
 }
-function num(id) {return Number($(id).value);}
+
+function num(id) {
+  return Number($(id).value);
+}
+
 function calculatePrisma() {
-  const ids=["identified","duplicates","otherRemoved","screened","titleExcluded","reportsSought","notRetrieved","fullAssessed","fullExcluded","included"];
-  if(ids.some(id=>$(id).value.trim()==="" || !Number.isInteger(num(id)) || num(id)<0)) {
-    $("prismaResult").textContent="Enter a non-negative whole number in every field.";return;
-  }
-  const identified=num("identified"), duplicates=num("duplicates"), other=num("otherRemoved");
-  const screened=num("screened"), excluded=num("titleExcluded"), sought=num("reportsSought");
-  const notRetrieved=num("notRetrieved"), assessed=num("fullAssessed"), fullExcluded=num("fullExcluded"), included=num("included");
-  const checks=[
-    ["Records screened",screened,identified-duplicates-other],
-    ["Records excluded + reports sought",excluded+sought,screened],
-    ["Reports assessed",assessed,sought-notRetrieved],
-    ["Studies included + full-text exclusions",included+fullExcluded,assessed]
+  const ids = [
+    "identified", "duplicates", "otherRemoved", "screened",
+    "titleExcluded", "reportsSought", "notRetrieved",
+    "fullAssessed", "fullExcluded", "included"
   ];
-  let output="PRISMA arithmetic checks\n\n";
-  checks.forEach(([label,actual,expected])=>{
-    output+=`${label}: entered/calculated ${actual}; expected ${expected} — ${actual===expected?"MATCH":"CHECK COUNTS"}\n`;
-  });
-  $("prismaResult").textContent=output;
+
+  if (ids.some(id =>
+    $(id).value.trim() === "" ||
+    !Number.isInteger(num(id)) ||
+    num(id) < 0
+  )) {
+    $("prismaResult").textContent =
+      "Enter a non-negative whole number in every field.";
+    return;
+  }
+
+  const identified = num("identified");
+  const duplicates = num("duplicates");
+  const other = num("otherRemoved");
+  const screened = num("screened");
+  const excluded = num("titleExcluded");
+  const sought = num("reportsSought");
+  const notRetrieved = num("notRetrieved");
+  const assessed = num("fullAssessed");
+  const fullExcluded = num("fullExcluded");
+  const included = num("included");
+
+  const checks = [
+    ["Records screened", screened, identified - duplicates - other],
+    ["Exclusions + reports sought", excluded + sought, screened],
+    ["Reports assessed", assessed, sought - notRetrieved],
+    ["Included + full-text exclusions", included + fullExcluded, assessed]
+  ];
+
+  $("prismaResult").textContent =
+    "PRISMA arithmetic checks\n\n" +
+    checks.map(([label, actual, expected]) =>
+      `${label}: ${actual}; expected ${expected} — ` +
+      `${actual === expected ? "MATCH" : "CHECK COUNTS"}`
+    ).join("\n");
 }
+
 function exportPrisma() {
-  const ids=["identified","duplicates","otherRemoved","screened","titleExcluded","reportsSought","notRetrieved","fullAssessed","fullExcluded","included"];
-  downloadFile("prisma-counts.csv","Field,Count\n"+ids.map(id=>`${id},${$(id).value}`).join("\n"),"text/csv");
+  const ids = [
+    "identified", "duplicates", "otherRemoved", "screened",
+    "titleExcluded", "reportsSought", "notRetrieved",
+    "fullAssessed", "fullExcluded", "included"
+  ];
+
+  const csv = "Field,Count\n" +
+    ids.map(id => `${id},${$(id).value}`).join("\n");
+
+  downloadFile("prisma-counts.csv", csv, "text/csv");
 }
+
 function addStudy() {
-  const citation=$("citation").value.trim();
-  if(!citation){$("screenMessage").textContent="Enter a study citation or ID first.";return;}
-  studies.push({citation,decision:$("decision").value,reason:$("reason").value.trim()});
-  $("citation").value="";$("reason").value="";
-  renderStudies();
-}
-function renderStudies() {
-  $("studyRows").innerHTML="";
-  studies.forEach((s,i)=>{
-    const tr=document.createElement("tr");
-    [s.citation,s.decision,s.reason].forEach(value=>{
-      const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
-    });
-    const td=document.createElement("td");
-    const btn=document.createElement("button");btn.className="secondary";btn.textContent="Remove";
-    btn.onclick=()=>{studies.splice(i,1);renderStudies();};
-    td.appendChild(btn);tr.appendChild(td);$("studyRows").appendChild(tr);
+  const citation = $("citation").value.trim();
+
+  if (!citation) {
+    $("screenMessage").textContent = "Enter a study citation or ID first.";
+    return;
+  }
+
+  studies.push({
+    citation,
+    decision: $("decision").value,
+    reason: $("reason").value.trim()
   });
-  $("studyCount").textContent=studies.length;
-  $("includedCount").textContent=studies.filter(s=>s.decision==="Include").length;
-  $("screenMessage").textContent=studies.length?`${studies.length} studies recorded.`:"No studies recorded yet.";
+
+  $("citation").value = "";
+  $("reason").value = "";
+  renderStudies();
+  persistStudies();
 }
+
+function renderStudies() {
+  $("studyRows").innerHTML = "";
+
+  studies.forEach((study, index) => {
+    const tr = document.createElement("tr");
+
+    [study.citation, study.decision, study.reason].forEach(value => {
+      const td = document.createElement("td");
+      td.textContent = value;
+      tr.appendChild(td);
+    });
+
+    const td = document.createElement("td");
+    const btn = document.createElement("button");
+    btn.className = "danger";
+    btn.textContent = "Remove";
+
+    btn.onclick = () => {
+      studies.splice(index, 1);
+      renderStudies();
+      persistStudies();
+    };
+
+    td.appendChild(btn);
+    tr.appendChild(td);
+    $("studyRows").appendChild(tr);
+  });
+
+  $("studyCount").textContent = studies.length;
+  $("includedCount").textContent =
+    studies.filter(s => s.decision === "Include").length;
+
+  $("screenMessage").textContent = studies.length
+    ? `${studies.length} studies recorded.`
+    : "No studies recorded yet.";
+}
+
+function persistStudies() {
+  try {
+    localStorage.setItem("src_studies", JSON.stringify(studies));
+  } catch (e) {}
+}
+
 function exportStudies() {
-  const rows=[["Citation","Decision","Reason"],...studies.map(s=>[s.citation,s.decision,s.reason])];
-  const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
-  downloadFile("study-screening.csv",csv,"text/csv");
+  const rows = [
+    ["Citation", "Decision", "Reason"],
+    ...studies.map(s => [s.citation, s.decision, s.reason])
+  ];
+
+  const csv = rows.map(row =>
+    row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(",")
+  ).join("\n");
+
+  downloadFile("study-screening.csv", csv, "text/csv");
 }
-function prepareDraft() {
-  const section=$("sectionType").value, notes=$("draft").value.trim();
-  if(!notes){$("draftOutput").textContent="Add your notes and verified findings first.";return;}
-  currentDraft=`${section.toUpperCase()}\n\n${notes}\n\n[Verify factual claims, citations, consistency with extracted data, and journal requirements before submission.]`;
-  $("draftOutput").textContent=currentDraft;
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [], cell = "", quoted = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    const next = text[i + 1];
+
+    if (c === '"' && quoted && next === '"') {
+      cell += '"';
+      i++;
+    } else if (c === '"') {
+      quoted = !quoted;
+    } else if (c === "," && !quoted) {
+      row.push(cell);
+      cell = "";
+    } else if ((c === "\n" || c === "\r") && !quoted) {
+      if (c === "\r" && next === "\n") i++;
+      row.push(cell);
+      if (row.some(value => value.trim() !== "")) rows.push(row);
+      row = [];
+      cell = "";
+    } else {
+      cell += c;
+    }
+  }
+
+  if (cell.length || row.length) {
+    row.push(cell);
+    if (row.some(value => value.trim() !== "")) rows.push(row);
+  }
+
+  return rows;
 }
-function downloadDraft() {
-  if(!currentDraft)prepareDraft();
-  if(currentDraft)downloadFile("manuscript-draft.txt",currentDraft);
+
+async function importStudies(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const rows = parseCSV(await file.text());
+
+    if (rows.length < 2) {
+      throw new Error("CSV needs a header and at least one data row.");
+    }
+
+    const headers = rows[0].map(x => x.trim().toLowerCase());
+
+    const ci = headers.findIndex(x =>
+      /citation|study|reference|author|id/.test(x)
+    );
+
+    const di = headers.findIndex(x =>
+      /decision|status|screen/.test(x)
+    );
+
+    const ri = headers.findIndex(x =>
+      /reason|note|comment/.test(x)
+    );
+
+    studies = rows.slice(1).map(r => ({
+      citation: r[ci >= 0 ? ci : 0] || "",
+      decision: r[di >= 0 ? di : 1] || "Pending",
+      reason: r[ri >= 0 ? ri : 2] || ""
+    })).filter(s => s.citation.trim());
+
+    renderStudies();
+    persistStudies();
+
+    $("screenMessage").textContent =
+      `Imported ${studies.length} rows. Check the column mapping.`;
+
+  } catch (e) {
+    $("screenMessage").textContent = "Could not import CSV: " + e.message;
+  }
 }
-async function copyDraft() {
-  if(!currentDraft)prepareDraft();
-  if(!currentDraft)return;
-  try {await navigator.clipboard.writeText(currentDraft);$("draftOutput").textContent=currentDraft+"\n\nCopied to clipboard.";}
-  catch(e){$("draftOutput").textContent=currentDraft+"\n\nClipboard unavailable. Use Download text instead.";}
+
+async function importExtraction(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const parsed = parseCSV(await file.text());
+
+    if (parsed.length < 2) {
+      throw new Error("CSV needs a header and at least one data row.");
+    }
+
+    extraction = {
+      headers: parsed[0],
+      rows: parsed.slice(1)
+    };
+
+    const preview = extraction.rows.slice(0, 5).map(row =>
+      row.map((value, i) =>
+        `${extraction.headers[i]}: ${value}`
+      ).join(" | ")
+    ).join("\n");
+
+    $("extractionPreview").textContent =
+      `Loaded ${extraction.rows.length} data rows and ` +
+      `${extraction.headers.length} columns.\n` +
+      `Preview (first 5 rows):\n${preview}\n\n` +
+      "This is a data preview only. Verify all values before manuscript use.";
+
+  } catch (e) {
+    $("extractionPreview").textContent = "Could not read CSV: " + e.message;
+  }
+}
+
+function val(id, placeholder) {
+  const value = $(id).value.trim();
+  return value || placeholder;
+}
+
+function prismaSummary() {
+  const included = $("included").value.trim();
+  const identified = $("identified").value.trim();
+  const screened = $("screened").value.trim();
+  const full = $("fullAssessed").value.trim();
+
+  return `Records identified: ${identified || "[enter number]"}; ` +
+    `records screened: ${screened || "[enter number]"}; ` +
+    `reports assessed for eligibility: ${full || "[enter number]"}; ` +
+    `studies included: ${included || "[enter number]"}. ` +
+    "Check these counts against the final PRISMA flow diagram.";
+}
+
+function section(title, body) {
+  return `${title.toUpperCase()}\n\n${body}\n`;
+}
+
+function buildManuscript() {
+  const title = val("title", "[Insert review title]");
+  const objective = val("question", "[State the review question and objective.]");
+  const criteria = val("eligibility", "[Describe eligibility criteria.]");
+  const databases = val("databases", "[List information sources and search dates.]");
+  const protocol = val("protocol", "[Insert protocol and reporting details.]");
+  const searchDate = val("searchDate", "[Insert last search date.]");
+  const methods = val("methodsNotes", "[Describe methods actually performed.]");
+  const results = val("resultsNotes", "[Insert verified findings and effect estimates.]");
+  const discussion = val("discussionNotes", "[Interpret findings using verified evidence.]");
+  const limitations = val("limitationsNotes", "[Describe strengths and limitations.]");
+  const conclusion = val("conclusionNotes", "[Write a conclusion proportionate to the evidence.]");
+  const authors = $("authors").value.trim();
+  const refs = val("referencesNotes", "[Insert and verify the reference list.]");
+  const studyDesigns = val("studyDesigns", "[Specify included study designs.]");
+  const funding = val("fundingNotes", "[Confirm declarations before submission.]");
+
+  const abstract = $("abstractType").value === "Structured"
+    ? `Background: ${val("abstractBackground", "[Describe the topic and evidence gap.]")}
+
+Objective: ${objective}
+
+Methods: ${databases} Searches last conducted: ${searchDate}. Eligibility: ${criteria} Methods: ${methods}
+
+Results: ${results}
+
+Conclusion: ${conclusion}
+
+Registration: ${protocol}`
+    : `This review addressed the following objective: ${objective}
+
+Methods: ${databases} Searches last conducted: ${searchDate}. Eligibility: ${criteria} ${methods}
+
+Findings: ${results}
+
+Conclusion: ${conclusion}
+
+Registration: ${protocol}`;
+
+  const extractionSummary = extraction.rows.length
+    ? `\n\nExtraction sheet summary: ${extraction.rows.length} rows and ` +
+      `${extraction.headers.length} columns were imported. ` +
+      `Columns: ${extraction.headers.join(", ")}. ` +
+      "The data has not been statistically analysed or independently validated."
+    : "";
+
+  const text = [
+    title.toUpperCase(),
+    authors ? `\n${authors}` : "\n[Insert author names and affiliations.]",
+
+    section("Abstract", abstract),
+
+    section("Keywords",
+      "[Add keywords according to the target journal requirements.]"),
+
+    section("1. Introduction",
+      `Background and rationale: [Explain the topic and current state of knowledge using verified citations.]
+
+Evidence gap: [Describe what remains uncertain and why this review is needed.]
+
+Objective: ${objective}`),
+
+    section("2. Methods",
+      `Protocol and reporting: ${protocol}
+
+Eligibility criteria: ${criteria}
+
+Information sources: ${databases}
+
+Search strategy: [Provide reproducible database-specific search strategies, dates, limits and supplementary searching.]
+
+Selection process: [State how many reviewers screened records, whether independently, and how disagreements were resolved.]
+
+Data collection process: [Describe extraction forms, reviewers, checking and handling of missing information.]
+
+Data items: [List collected outcomes and variables.]
+
+Risk of bias assessment: [Name the appropriate tool and describe the assessment process.]
+
+Effect measures and synthesis: [Specify outcome-level effect measures, synthesis model, heterogeneity assessment, subgroup and sensitivity analyses, and software actually used. Do not claim a meta-analysis unless it was performed.]
+
+Certainty of evidence: [Describe the method used, such as GRADE, only if actually performed.]
+
+Detailed methods supplied by author: ${methods}`),
+
+    section("3. Results",
+      `Study selection: ${prismaSummary()}
+
+Study characteristics and designs: ${studyDesigns}
+
+Main findings: ${results}
+
+Risk of bias: [Report actual assessments by domain and refer to relevant tables or figures.]
+
+Synthesis results: [Report each outcome with denominators, effect estimates, confidence intervals, heterogeneity and certainty where applicable.]
+
+Data extraction context: [Describe tables and supplementary materials using verified values.]${extractionSummary}`),
+
+    section("4. Discussion",
+      `Principal findings and interpretation: ${discussion}
+
+Comparison with previous literature: [Compare with relevant studies using verified citations.]
+
+Strengths and limitations: ${limitations}
+
+Implications for practice and policy: [State only implications justified by the evidence.]
+
+Implications for future research: [Identify research gaps supported by this review.]`),
+
+    section("5. Conclusion", conclusion),
+
+    section("Declarations", funding),
+
+    section("References", refs),
+
+    section("Pre-submission verification checklist",
+      "[ ] Every numerical value matches the final extraction sheet and analysis.\n" +
+      "[ ] PRISMA counts reconcile and match the flow diagram.\n" +
+      "[ ] All citations map to real, verified references.\n" +
+      "[ ] Methods describe only procedures actually performed.\n" +
+      "[ ] Effect estimates, denominators and confidence intervals are checked.\n" +
+      "[ ] Risk-of-bias and certainty judgements are accurate.\n" +
+      "[ ] The abstract matches the full manuscript.\n" +
+      "[ ] Journal instructions and declarations have been checked.\n" +
+      "[ ] All placeholders have been resolved before submission.")
+  ].join("\n\n");
+
+  $("manuscriptOutput").value = text;
+  $("manuscriptMessage").textContent =
+    "Draft built. Verify every section, claim, number and citation before submission.";
+
+  $("manuscriptOutput").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+function saveManuscript() {
+  const fields = [
+    "title", "reviewType", "journal", "referenceStyle", "framework",
+    "question", "eligibility", "databases", "protocol", "authors",
+    "abstractType", "abstractBackground", "searchDate", "studyDesigns",
+    "methodsNotes", "resultsNotes", "discussionNotes", "limitationsNotes",
+    "conclusionNotes", "fundingNotes", "referencesNotes", "manuscriptOutput"
+  ];
+
+  const data = {};
+  fields.forEach(id => data[id] = $(id).value);
+
+  try {
+    localStorage.setItem("src_manuscript", JSON.stringify(data));
+    $("manuscriptMessage").textContent = "Draft saved in this browser.";
+  } catch (e) {
+    $("manuscriptMessage").textContent =
+      "Browser storage unavailable. Download a backup instead.";
+  }
+}
+
+function loadManuscript() {
+  try {
+    const data = JSON.parse(localStorage.getItem("src_manuscript") || "null");
+
+    if (!data) {
+      $("manuscriptMessage").textContent = "No saved draft found in this browser.";
+      return;
+    }
+
+    Object.keys(data).forEach(id => {
+      if ($(id)) $(id).value = data[id];
+    });
+
+    $("manuscriptMessage").textContent = "Saved draft loaded.";
+  } catch (e) {
+    $("manuscriptMessage").textContent = "Could not load saved draft.";
+  }
+}
+
+function slug() {
+  return ($("title").value.trim() || "systematic-review-manuscript")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function downloadMarkdown() {
+  const text = $("manuscriptOutput").value.trim();
+
+  if (!text) {
+    $("manuscriptMessage").textContent = "Build or enter a manuscript first.";
+    return;
+  }
+
+  downloadFile(slug() + ".md", text, "text/markdown;charset=utf-8");
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"]/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;"
+  }[character]));
+}
+
+function downloadWord() {
+  const text = $("manuscriptOutput").value.trim();
+
+  if (!text) {
+    $("manuscriptMessage").textContent = "Build or enter a manuscript first.";
+    return;
+  }
+
+  const html = text.split(/\n{2,}/).map(block => {
+    const lines = block.split("\n");
+    const first = lines[0];
+
+    if (/^(ABSTRACT|KEYWORDS|[1-5]\. |DECLARATIONS|REFERENCES|PRE-SUBMISSION VERIFICATION CHECKLIST)/i.test(first)) {
+      return "<h2>" + escapeHtml(first) + "</h2>" +
+        (lines.length > 1
+          ? "<p>" + lines.slice(1).map(escapeHtml).join("<br>") + "</p>"
+          : "");
+    }
+
+    return "<p>" + lines.map(escapeHtml).join("<br>") + "</p>";
+  }).join("\n");
+
+  const doc = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${escapeHtml($("title").value || "Systematic Review Manuscript")}</title>
+<style>
+body { font-family: Arial, sans-serif; line-height: 1.6; color: #222; }
+h1, h2 { color: #244b3b; }
+p { margin: 0 0 12pt; }
+</style>
+</head>
+<body>
+<h1>${escapeHtml($("title").value || "Systematic Review Manuscript")}</h1>
+${html}
+</body>
+</html>`;
+
+  downloadFile(slug() + ".doc", doc, "application/msword;charset=utf-8");
+}
+
+async function copyManuscript() {
+  const text = $("manuscriptOutput").value;
+
+  if (!text) {
+    $("manuscriptMessage").textContent = "Build or enter a manuscript first.";
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(text);
+    $("manuscriptMessage").textContent = "Manuscript copied to clipboard.";
+  } catch (e) {
+    $("manuscriptMessage").textContent =
+      "Clipboard unavailable. Use a download option.";
+  }
+}
+
+function downloadText() {
+  const text = $("manuscriptOutput").value.trim();
+
+  if (!text) {
+    $("manuscriptMessage").textContent = "Build or enter a manuscript first.";
+    return;
+  }
+
+  downloadFile(slug() + ".txt", text);
+}
+
+/* Restore saved review and screening data */
+try {
+  const saved = JSON.parse(localStorage.getItem("src_review") || "null");
+
+  if (saved) {
+    Object.keys(saved).forEach(id => {
+      if ($(id)) $(id).value = saved[id];
+    });
+  }
+
+  studies = JSON.parse(localStorage.getItem("src_studies") || "[]");
+  renderStudies();
+} catch (e) {
+  console.warn("Could not restore local data.", e);
 }
 </script>
+
 </body>
 </html>
