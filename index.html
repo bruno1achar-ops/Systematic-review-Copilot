@@ -272,6 +272,19 @@ footer {
   </div>
 
   <div class="card">
+    <h3>Project Workspace</h3>
+    <p class="muted">Manage separate reviews and back up your workspace. Data is stored in this browser unless you export a backup.</p>
+    <label for="projectSelect">Current project</label>
+    <select id="projectSelect" aria-label="Current project"></select>
+    <p id="projectStatus" class="muted" role="status" aria-live="polite">Initializing project workspace…</p>
+    <button class="primary" onclick="saveCurrentProject()">Save project</button>
+    <button class="secondary" onclick="createNewProject()">New project</button>
+    <button class="secondary" onclick="exportProjectBackup()">Export all projects backup</button>
+    <label for="projectBackupFile">Restore a project backup</label>
+    <input id="projectBackupFile" type="file" accept=".json,application/json" onchange="importProjectBackup(event)">
+  </div>
+
+  <div class="card">
     <h3>Getting started</h3>
     <p>1. Enter your review question and eligibility criteria.</p>
     <p>2. Enter and check PRISMA counts.</p>
@@ -484,8 +497,7 @@ footer {
     <div id="extractionPreview" class="result"></div>
 
     <button class="primary" onclick="buildManuscript()">Build complete manuscript</button>
-    <button class="secondary" onclick="saveManuscript()">Save draft</button>
-    <button class="secondary" onclick="loadManuscript()">Load saved draft</button>
+    <button class="secondary" onclick="saveManuscript()">Save draft</button>    <button class="secondary" onclick="loadManuscript()">Load saved draft</button>
   </div>
 
   <div class="card">
@@ -1105,23 +1117,385 @@ function downloadText() {
   }
 
   downloadFile(slug() + ".txt", text);
+}/* Multi-project workspace, autosave, migration and backup/restore */
+const PROJECTS_KEY = "src_projects_v1";
+const ACTIVE_PROJECT_KEY = "src_active_project_v1";
+
+let activeProjectId = null;
+let projectAutosaveTimer = null;
+let isApplyingProject = false;
+
+function readProjects() {
+  try {
+    const value = JSON.parse(localStorage.getItem(PROJECTS_KEY) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch (error) {
+    console.warn("Could not read project list.", error);
+    return [];
+  }
 }
 
-/* Restore saved review and screening data */
-try {
-  const saved = JSON.parse(localStorage.getItem("src_review") || "null");
-
-  if (saved) {
-    Object.keys(saved).forEach(id => {
-      if ($(id)) $(id).value = saved[id];
+function captureProjectFields() {
+  const fields = {};
+  document.querySelectorAll("main input:not([type=file]), main textarea, main select")
+    .forEach(element => {
+      if (element.id && element.id !== "projectSelect") {
+        fields[element.id] = element.value;
+      }
     });
+  return fields;
+}
+
+function saveProjectList(projects) {
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+}
+
+function saveCurrentProject() {
+  try {
+    const projects = readProjects();
+    const existing = projects.find(project => project.id === activeProjectId);
+    const project = {
+      id: activeProjectId || (
+        (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : "project-" + Date.now() + "-" + Math.random().toString(36).slice(2)
+      ),
+      name: document.getElementById("title").value.trim() ||
+        existing?.name || "Untitled review",
+      updatedAt: new Date().toISOString(),
+      fields: captureProjectFields(),
+      studies: JSON.parse(JSON.stringify(studies)),
+      extraction: JSON.parse(JSON.stringify(extraction))
+    };
+
+    const index = projects.findIndex(item => item.id === project.id);
+    if (index >= 0) projects[index] = project;
+    else projects.push(project);
+
+    saveProjectList(projects);
+    activeProjectId = project.id;
+    localStorage.setItem(ACTIVE_PROJECT_KEY, project.id);
+    renderProjectSelector();
+
+    const status = document.getElementById("projectStatus");
+    if (status) {
+      status.textContent =
+        "Saved locally at " + new Date().toLocaleTimeString() +
+        ". Export a backup to keep a separate copy.";
+    }
+    return true;
+  } catch (error) {
+    const status = document.getElementById("projectStatus");
+    if (status) {
+      status.textContent = "Could not save locally: " + error.message +
+        ". Export or copy your work if possible.";
+    }
+    return false;
+  }
+}
+
+function renderProjectSelector() {
+  const selector = document.getElementById("projectSelect");
+  if (!selector) return;
+
+  const projects = readProjects().sort((a, b) =>
+    String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""))
+  );
+
+  selector.replaceChildren();
+
+  if (!projects.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No saved projects";
+    selector.appendChild(option);
+    return;
   }
 
-  studies = JSON.parse(localStorage.getItem("src_studies") || "[]");
-  renderStudies();
-} catch (e) {
-  console.warn("Could not restore local data.", e);
+  projects.forEach(project => {
+    const option = document.createElement("option");
+    option.value = project.id;
+    option.textContent = (project.name || "Untitled review") +
+      (project.updatedAt
+        ? " · " + new Date(project.updatedAt).toLocaleDateString()
+        : "");
+    selector.appendChild(option);
+  });
+
+  selector.value = activeProjectId || projects[0].id;
 }
+
+function applyProject(project) {
+  if (!project || !project.fields) return;
+
+  isApplyingProject = true;
+  try {
+    Object.entries(project.fields).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+      if (element && !["file", "button", "submit"].includes(element.type)) {
+        element.value = value ?? "";
+      }
+    });
+
+    studies = Array.isArray(project.studies) ? project.studies : [];
+    extraction = project.extraction &&
+      Array.isArray(project.extraction.headers) &&
+      Array.isArray(project.extraction.rows)
+      ? project.extraction
+      : { headers: [], rows: [] };
+
+    activeProjectId = project.id;
+    localStorage.setItem(ACTIVE_PROJECT_KEY, project.id);
+    renderStudies();
+    renderExtractionPreview();
+    renderProjectSelector();
+
+    const status = document.getElementById("projectStatus");
+    if (status) {
+      status.textContent = "Opened project: " +
+        (project.name || "Untitled review") +
+        ". Changes autosave in this browser.";
+    }
+  } finally {
+    isApplyingProject = false;
+  }
+}
+
+function openProject(projectId) {
+  if (!projectId || projectId === activeProjectId) return;
+
+  clearTimeout(projectAutosaveTimer);
+  if (activeProjectId && !saveCurrentProject()) return;
+
+  const project = readProjects().find(item => item.id === projectId);
+  if (project) applyProject(project);
+}
+
+function createNewProject() {
+  const name = prompt("Enter a name for your new review:");
+  if (!name || !name.trim()) return;
+
+  clearTimeout(projectAutosaveTimer);
+  if (activeProjectId && !saveCurrentProject()) return;
+
+  isApplyingProject = true;
+  try {
+    document.querySelectorAll(
+      "main input:not([type=file]), main textarea, main select"
+    ).forEach(element => {
+      if (element.id === "projectSelect") return;
+      if (element.tagName === "SELECT") element.selectedIndex = 0;
+      else element.value = element.defaultValue || "";
+    });
+
+    studies = [];
+    extraction = { headers: [], rows: [] };
+    activeProjectId = null;
+    renderStudies();
+    renderExtractionPreview();
+    document.getElementById("title").value = name.trim();
+  } finally {
+    isApplyingProject = false;
+  }
+
+  saveCurrentProject();
+}
+
+function exportProjectBackup() {
+  clearTimeout(projectAutosaveTimer);
+  if (activeProjectId && !saveCurrentProject()) return;
+
+  const projects = readProjects();
+  if (!projects.length) {
+    alert("There are no saved projects to back up yet.");
+    return;
+  }
+
+  const backup = {
+    format: "systematic-review-copilot-backup",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    activeProjectId,
+    projects
+  };
+
+  downloadFile(
+    "systematic-review-copilot-backup.json",
+    JSON.stringify(backup, null, 2),
+    "application/json"
+  );
+}
+
+async function importProjectBackup(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  try {
+    const backup = JSON.parse(await file.text());
+
+    if (
+      backup.format !== "systematic-review-copilot-backup" ||
+      backup.version !== 1 ||
+      !Array.isArray(backup.projects)
+    ) {
+      throw new Error("This is not a supported Copilot backup file.");
+    }
+
+    const valid = backup.projects.every(project =>
+      project &&
+      typeof project.id === "string" &&
+      project.fields &&
+      typeof project.fields === "object" &&
+      Array.isArray(project.studies)
+    );
+
+    if (!valid) throw new Error("One or more projects have an invalid format.");
+
+    if (!confirm(
+      "Restore this backup? It will replace all projects currently stored " +
+      "in this browser. Export your current projects first if you need them."
+    )) return;
+
+    saveProjectList(backup.projects);
+
+    const selected = backup.projects.find(
+      project => project.id === backup.activeProjectId
+    ) || backup.projects[0];
+
+    if (selected) {
+      applyProject(selected);
+    } else {
+      activeProjectId = null;
+      renderProjectSelector();
+    }
+
+    const status = document.getElementById("projectStatus");
+    if (status) status.textContent = "Backup restored successfully.";
+  } catch (error) {
+    const status = document.getElementById("projectStatus");
+    if (status) {
+      status.textContent = "Backup could not be restored: " + error.message;
+    }
+  } finally {
+    event.target.value = "";
+  }
+}
+
+function renderExtractionPreview() {
+  const target = document.getElementById("extractionPreview");
+  if (!target) return;
+
+  if (!extraction || !Array.isArray(extraction.rows) || !extraction.rows.length) {
+    target.textContent = "";
+    return;
+  }
+
+  const preview = extraction.rows.slice(0, 5).map(row =>
+    row.map((value, index) =>
+      `${extraction.headers[index] || "Column"}: ${value}`
+    ).join(" | ")
+  ).join("\n");
+
+  target.textContent =
+    `Loaded ${extraction.rows.length} data rows and ` +
+    `${extraction.headers.length} columns.\n` +
+    `Preview (first 5 rows):\n${preview}\n\n` +
+    "This is a preview only; the data has not been statistically analysed " +
+    "or independently verified.";
+}
+
+function scheduleProjectAutosave() {
+  if (isApplyingProject) return;
+  clearTimeout(projectAutosaveTimer);
+  projectAutosaveTimer = setTimeout(() => saveCurrentProject(), 700);
+}
+
+function initializeProjectWorkspace() {
+  const projects = readProjects();
+
+  if (projects.length) {
+    const rememberedId = localStorage.getItem(ACTIVE_PROJECT_KEY);
+    const remembered = projects.find(project => project.id === rememberedId);
+    applyProject(remembered || projects[0]);
+  } else {
+    // Migrate saved work from the previous single-project version.
+    try {
+      const savedReview = JSON.parse(
+        localStorage.getItem("src_review") || "null"
+      );
+
+      if (savedReview) {
+        Object.entries(savedReview).forEach(([id, value]) => {
+          const element = document.getElementById(id);
+          if (element) element.value = value ?? "";
+        });
+      }
+
+      studies = JSON.parse(localStorage.getItem("src_studies") || "[]");
+
+      const savedManuscript = JSON.parse(
+        localStorage.getItem("src_manuscript") || "null"
+      );
+
+      if (savedManuscript) {
+        Object.entries(savedManuscript).forEach(([id, value]) => {
+          const element = document.getElementById(id);
+          if (element) element.value = value ?? "";
+        });
+      }
+    } catch (error) {
+      console.warn("Could not migrate previous local data.", error);
+      studies = [];
+    }
+
+    renderStudies();
+    renderExtractionPreview();
+    saveCurrentProject();
+  }
+
+  renderProjectSelector();
+}
+
+document.getElementById("projectSelect").addEventListener(
+  "change",
+  event => openProject(event.target.value)
+);
+
+document.querySelectorAll(
+  "main input:not([type=file]), main textarea, main select"
+).forEach(element => {
+  if (element.id !== "projectSelect") {
+    element.addEventListener("input", scheduleProjectAutosave);
+    element.addEventListener("change", scheduleProjectAutosave);
+  }
+});
+
+// Keep the existing save/import buttons working with full project snapshots.
+const originalSaveReview = saveReview;
+saveReview = function() {
+  originalSaveReview();
+  saveCurrentProject();
+};
+
+const originalSaveManuscript = saveManuscript;
+saveManuscript = function() {
+  originalSaveManuscript();
+  saveCurrentProject();
+};
+
+const originalAddStudy = addStudy;
+addStudy = function() {
+  originalAddStudy();
+  saveCurrentProject();
+};
+
+const originalImportStudies = importStudies;
+importStudies = async function(event) {
+  await originalImportStudies(event);
+  saveCurrentProject();
+};
+
+initializeProjectWorkspace();
 </script>
 
 </body>
