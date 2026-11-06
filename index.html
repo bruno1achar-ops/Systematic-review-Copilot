@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systematic Review Copilot</title>
+<style>
+:root {
+  --green:#244b3b; --gold:#b99b62; --ivory:#f8f6ef;
+  --ink:#26352e; --muted:#69766e; --white:#fff;
+}
+* {box-sizing:border-box}
+body {
+  margin:0; background:var(--ivory); color:var(--ink);
+  font-family:Arial, sans-serif; line-height:1.6;
+}
+header {
+  background:var(--green); color:white; padding:24px 6%;
+}
+header h1 {margin:0;font-size:25px}
+header p {margin:5px 0 0;color:#e2e8e2}
+.layout {
+  display:grid;grid-template-columns:220px 1fr;min-height:85vh;
+}
+nav {background:#eaece4;padding:24px 14px}
+nav button {
+  display:block;width:100%;text-align:left;padding:12px;
+  margin-bottom:7px;border:0;border-radius:8px;
+  background:transparent;color:var(--ink);cursor:pointer;
+}
+nav button.active,nav button:hover {
+  background:var(--green);color:white;
+}
+main {padding:28px;max-width:1100px;width:100%}
+h2 {color:var(--green);margin-top:0}
+h3 {color:var(--green)}
+.card {
+  background:white;border:1px solid #e2e3da;
+  border-radius:13px;padding:20px;margin-bottom:18px;
+}
+.stats {
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+}
+.stat strong {display:block;font-size:27px;color:var(--green)}
+label {display:block;font-weight:bold;margin:12px 0 5px}
+input,textarea,select {
+  width:100%;padding:11px;border:1px solid #cbd2c9;
+  border-radius:7px;background:white;font:inherit;
+}
+textarea {min-height:130px;resize:vertical}
+button.primary {
+  background:var(--green);color:white;border:0;
+  border-radius:7px;padding:11px 17px;margin-top:12px;
+  cursor:pointer;font:inherit;
+}
+button.secondary {
+  background:#ece8dc;color:var(--ink);border:0;
+  border-radius:7px;padding:9px 13px;cursor:pointer;
+}
+.result {white-space:pre-wrap;overflow-wrap:anywhere}
+small,.muted {color:var(--muted)}
+table {width:100%;border-collapse:collapse}
+th,td {text-align:left;padding:10px;border-bottom:1px solid #e4e5df}
+th {background:#eef0e9}
+.panel {display:none}
+.panel.active {display:block}
+footer {padding:20px;text-align:center;color:var(--muted)}
+@media(max-width:700px) {
+ .layout {grid-template-columns:1fr}
+ nav {display:flex;overflow-x:auto;padding:8px}
+ nav button {min-width:max-content;width:auto;margin:0 4px}
+ main {padding:16px}
+ .stats {grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>✦ Systematic Review Copilot</h1>
+  <p>Your workspace for evidence synthesis and manuscript preparation</p>
+</header>
+<div class="layout">
+<nav>
+  <button class="active" data-panel="home">⌂ Dashboard</button>
+  <button data-panel="review">▤ Review Setup</button>
+  <button data-panel="prisma">◈ PRISMA Calculator</button>
+  <button data-panel="screening">☷ Study Screening</button>
+  <button data-panel="manuscript">✎ Manuscript Studio</button>
+</nav>
+<main>
+<section id="home" class="panel active">
+  <h2>Welcome to your research workspace</h2>
+  <p class="muted">Organize your systematic review from protocol to manuscript.</p>
+  <div class="stats">
+    <div class="card stat"><strong id="studyCount">0</strong>Studies recorded</div>
+    <div class="card stat"><strong id="includedCount">0</strong>Studies included</div>
+    <div class="card stat"><strong>5</strong>Workspace modules</div>
+  </div>
+  <div class="card">
+    <h3>Getting started</h3>
+    <p>1. Enter your review question and eligibility criteria.</p>
+    <p>2. Calculate your PRISMA screening counts.</p>
+    <p>3. Record screening decisions for individual studies.</p>
+    <p>4. Draft manuscript sections from your verified findings.</p>
+  </div>
+  <div class="card">
+    <h3>Important</h3>
+    <p>This initial version runs in your browser. It does not send data to an AI model or save records to a central database. Export your work regularly. Avoid entering identifiable patient information.</p>
+  </div>
+</section>
+
+<section id="review" class="panel">
+  <h2>Review Setup</h2>
+  <div class="card">
+    <label for="title">Review title</label>
+    <input id="title" placeholder="Enter your systematic review title">
+    <label for="question">Research question</label>
+    <textarea id="question" placeholder="PICO, PEO or your review question"></textarea>
+    <label for="eligibility">Inclusion and exclusion criteria</label>
+    <textarea id="eligibility" placeholder="Define your eligibility criteria"></textarea>
+    <button class="primary" onclick="saveReview()">Save review locally</button>
+    <button class="secondary" onclick="exportReview()">Export review setup</button>
+    <p id="reviewMessage" class="muted"></p>
+  </div>
+</section>
+
+<section id="prisma" class="panel">
+  <h2>PRISMA Count Calculator</h2>
+  <p class="muted">Enter counts from your screening records. These are arithmetic checks, not a substitute for a completed PRISMA flow diagram.</p>
+  <div class="card">
+    <label for="identified">Records identified</label>
+    <input type="number" min="0" id="identified" value="0">
+    <label for="duplicates">Duplicate records removed</label>
+    <input type="number" min="0" id="duplicates" value="0">
+    <label for="otherRemoved">Other records removed before screening</label>
+    <input type="number" min="0" id="otherRemoved" value="0">
+    <label for="screened">Records screened</label>
+    <input type="number" min="0" id="screened" value="0">
+    <label for="titleExcluded">Records excluded at title/abstract screening</label>
+    <input type="number" min="0" id="titleExcluded" value="0">
+    <label for="reportsSought">Reports sought for retrieval</label>
+    <input type="number" min="0" id="reportsSought" value="0">
+    <label for="notRetrieved">Reports not retrieved</label>
+    <input type="number" min="0" id="notRetrieved" value="0">
+    <label for="fullAssessed">Reports assessed for eligibility</label>
+    <input type="number" min="0" id="fullAssessed" value="0">
+    <label for="fullExcluded">Reports excluded after full-text assessment</label>
+    <input type="number" min="0" id="fullExcluded" value="0">
+    <label for="included">Studies included in review</label>
+    <input type="number" min="0" id="included" value="0">
+    <button class="primary" onclick="calculatePrisma()">Check counts</button>
+    <button class="secondary" onclick="exportPrisma()">Export counts</button>
+    <div id="prismaResult" class="result" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="screening" class="panel">
+  <h2>Study Screening Tracker</h2>
+  <div class="card">
+    <label for="citation">Study citation or ID</label>
+    <input id="citation" placeholder="Author, year or reference ID">
+    <label for="decision">Screening decision</label>
+    <select id="decision">
+      <option value="Pending">Pending</option>
+      <option value="Include">Include</option>
+      <option value="Exclude">Exclude</option>
+      <option value="Full-text assessment">Full-text assessment</option>
+    </select>
+    <label for="reason">Reason or notes</label>
+    <input id="reason" placeholder="Record a specific exclusion reason if applicable">
+    <button class="primary" onclick="addStudy()">Add study</button>
+    <button class="secondary" onclick="exportStudies()">Export CSV</button>
+  </div>
+  <div class="card">
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Study</th><th>Decision</th><th>Notes</th><th>Action</th></tr></thead>
+        <tbody id="studyRows"></tbody>
+      </table>
+    </div>
+    <p id="screenMessage" class="muted">No studies recorded yet.</p>
+  </div>
+</section>
+
+<section id="manuscript" class="panel">
+  <h2>Manuscript Studio</h2>
+  <p class="muted">Create a structured draft using your own verified research information. This version does not generate AI content or invent references.</p>
+  <div class="card">
+    <label for="sectionType">Manuscript section</label>
+    <select id="sectionType">
+      <option>Abstract</option><option>Introduction</option>
+      <option>Methods</option><option>Results</option>
+      <option>Discussion</option><option>Conclusion</option>
+    </select>
+    <label for="draft">Your notes and verified findings</label>
+    <textarea id="draft" style="min-height:240px" placeholder="Enter your notes, results, study counts, and reference placeholders..."></textarea>
+    <button class="primary" onclick="prepareDraft()">Prepare draft</button>
+    <button class="secondary" onclick="downloadDraft()">Download text</button>
+  </div>
+  <div class="card">
+    <h3>Working draft</h3>
+    <div id="draftOutput" class="result">Your prepared draft will appear here.</div>
+    <button class="secondary" onclick="copyDraft()">Copy draft</button>
+  </div>
+</section>
+</main>
+</div>
+<footer>Systematic Review Copilot · Research assistance, with human verification</footer>
+<script>
+const $ = id => document.getElementById(id);
+let studies = [];
+let reviewData = {};
+let currentDraft = "";
+
+document.querySelectorAll("nav button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    button.classList.add("active");
+    $(button.dataset.panel).classList.add("active");
+  });
+});
+
+function downloadFile(name, content, type="text/plain;charset=utf-8") {
+  const url = URL.createObjectURL(new Blob([content],{type}));
+  const a=document.createElement("a");
+  a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
+}
+function saveReview() {
+  reviewData={title:$("title").value,question:$("question").value,eligibility:$("eligibility").value};
+  $("reviewMessage").textContent="Review details captured for this session. Export them to keep a copy.";
+}
+function exportReview() {
+  saveReview();
+  downloadFile("review-setup.json",JSON.stringify(reviewData,null,2),"application/json");
+}
+function num(id) {return Number($(id).value);}
+function calculatePrisma() {
+  const ids=["identified","duplicates","otherRemoved","screened","titleExcluded","reportsSought","notRetrieved","fullAssessed","fullExcluded","included"];
+  if(ids.some(id=>$(id).value.trim()==="" || !Number.isInteger(num(id)) || num(id)<0)) {
+    $("prismaResult").textContent="Enter a non-negative whole number in every field.";return;
+  }
+  const identified=num("identified"), duplicates=num("duplicates"), other=num("otherRemoved");
+  const screened=num("screened"), excluded=num("titleExcluded"), sought=num("reportsSought");
+  const notRetrieved=num("notRetrieved"), assessed=num("fullAssessed"), fullExcluded=num("fullExcluded"), included=num("included");
+  const checks=[
+    ["Records screened",screened,identified-duplicates-other],
+    ["Records excluded + reports sought",excluded+sought,screened],
+    ["Reports assessed",assessed,sought-notRetrieved],
+    ["Studies included + full-text exclusions",included+fullExcluded,assessed]
+  ];
+  let output="PRISMA arithmetic checks\n\n";
+  checks.forEach(([label,actual,expected])=>{
+    output+=`${label}: entered/calculated ${actual}; expected ${expected} — ${actual===expected?"MATCH":"CHECK COUNTS"}\n`;
+  });
+  $("prismaResult").textContent=output;
+}
+function exportPrisma() {
+  const ids=["identified","duplicates","otherRemoved","screened","titleExcluded","reportsSought","notRetrieved","fullAssessed","fullExcluded","included"];
+  downloadFile("prisma-counts.csv","Field,Count\n"+ids.map(id=>`${id},${$(id).value}`).join("\n"),"text/csv");
+}
+function addStudy() {
+  const citation=$("citation").value.trim();
+  if(!citation){$("screenMessage").textContent="Enter a study citation or ID first.";return;}
+  studies.push({citation,decision:$("decision").value,reason:$("reason").value.trim()});
+  $("citation").value="";$("reason").value="";
+  renderStudies();
+}
+function renderStudies() {
+  $("studyRows").innerHTML="";
+  studies.forEach((s,i)=>{
+    const tr=document.createElement("tr");
+    [s.citation,s.decision,s.reason].forEach(value=>{
+      const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
+    });
+    const td=document.createElement("td");
+    const btn=document.createElement("button");btn.className="secondary";btn.textContent="Remove";
+    btn.onclick=()=>{studies.splice(i,1);renderStudies();};
+    td.appendChild(btn);tr.appendChild(td);$("studyRows").appendChild(tr);
+  });
+  $("studyCount").textContent=studies.length;
+  $("includedCount").textContent=studies.filter(s=>s.decision==="Include").length;
+  $("screenMessage").textContent=studies.length?`${studies.length} studies recorded.`:"No studies recorded yet.";
+}
+function exportStudies() {
+  const rows=[["Citation","Decision","Reason"],...studies.map(s=>[s.citation,s.decision,s.reason])];
+  const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
+  downloadFile("study-screening.csv",csv,"text/csv");
+}
+function prepareDraft() {
+  const section=$("sectionType").value, notes=$("draft").value.trim();
+  if(!notes){$("draftOutput").textContent="Add your notes and verified findings first.";return;}
+  currentDraft=`${section.toUpperCase()}\n\n${notes}\n\n[Verify factual claims, citations, consistency with extracted data, and journal requirements before submission.]`;
+  $("draftOutput").textContent=currentDraft;
+}
+function downloadDraft() {
+  if(!currentDraft)prepareDraft();
+  if(currentDraft)downloadFile("manuscript-draft.txt",currentDraft);
+}
+async function copyDraft() {
+  if(!currentDraft)prepareDraft();
+  if(!currentDraft)return;
+  try {await navigator.clipboard.writeText(currentDraft);$("draftOutput").textContent=currentDraft+"\n\nCopied to clipboard.";}
+  catch(e){$("draftOutput").textContent=currentDraft+"\n\nClipboard unavailable. Use Download text instead.";}
+}
+</script>
+</body>
+</html>
